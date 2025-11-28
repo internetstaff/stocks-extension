@@ -1,7 +1,7 @@
 import Soup from 'gi://Soup'
 
 const DEFAULT_TIME_OUT_IN_SECONDS = 10
-const DEFAULT_CHROME_USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
+const DEFAULT_CHROME_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
 
 const Response = class {
   constructor (message, body) {
@@ -76,6 +76,9 @@ export const fetch = ({ url, method = 'GET', headers, queryParameters, customHtt
 
     const request_message = Soup.Message.new(method, url)
 
+    // Always force the User-Agent header
+    request_message.request_headers.append('User-Agent', DEFAULT_CHROME_USER_AGENT)
+
     if (headers) {
       appendHeaders(request_message, headers)
     }
@@ -85,7 +88,6 @@ export const fetch = ({ url, method = 'GET', headers, queryParameters, customHtt
     }
 
     const httpSession = customHttpSession || new Soup.Session({
-      user_agent: DEFAULT_CHROME_USER_AGENT,
       timeout: DEFAULT_TIME_OUT_IN_SECONDS
     })
 

@@ -114,6 +114,33 @@ class GeneralPreferenceGroup extends Adw.PreferencesGroup {
     tickerIntervalRow.add_suffix(tickerIntervalSpinButton)
     this.add(tickerIntervalRow)
 
+    const refreshIntervalSpinButton = new Gtk.SpinButton({
+      adjustment: new Gtk.Adjustment({
+        // Displayed in MINUTES; enforce minimum of 5 minutes in UI
+        lower: 5, upper: 1440, step_increment: 1, page_increment: 5, page_size: 0,
+      }),
+      climb_rate: 1,
+      digits: 0,
+      numeric: true,
+      valign: Gtk.Align.CENTER,
+    })
+
+    // Settings are stored in MINUTES
+    refreshIntervalSpinButton.set_value(this._settings.refresh_interval || 15)
+
+    refreshIntervalSpinButton.connect('value-changed', (widget) => {
+      // Persist in MINUTES
+      this._settings.refresh_interval = widget.get_value()
+    })
+
+    const refreshIntervalRow = new Adw.ActionRow({
+      title: Translations.SETTINGS.REFRESH_INTERVAL_LABEL,
+      activatable_widget: refreshIntervalSpinButton
+    })
+
+    refreshIntervalRow.add_suffix(refreshIntervalSpinButton)
+    this.add(refreshIntervalRow)
+
     const showTickerOffMarketPricesSwitch = new Gtk.Switch({
       valign: Gtk.Align.CENTER
     })

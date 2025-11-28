@@ -155,7 +155,6 @@ export const StockDetailsScreen = GObject.registerClass({
     this.add_child(stockDetailsTabButtonGroup)
     this.add_child(stockDetails)
 
-    // FIXME: adding chart throws a lot of "Can't update stage views actor", no clue what is going on here
     this.add_child(chartRangeButtonGroup)
     this.add_child(this._chart)
     this.add_child(chartValueHoverBox)
