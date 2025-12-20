@@ -124,7 +124,7 @@ export const StockOverviewScreen = GObject.registerClass({
   _registerTimeout () {
     this._autoRefreshTimeoutId = setInterval(() => {
       this._loadData()
-    }, (this._settings.ticker_interval || 10) * 1000)
+    }, (this._settings.refresh_interval || 15) * 60 * 1000)
   }
 
   async _loadData () {

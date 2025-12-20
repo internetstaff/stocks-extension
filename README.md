@@ -52,4 +52,4 @@ To add stocks you need the provider related symbol / identifier. You should be a
 
 
 ### debug
-dbus-run-session -- gnome-shell --nested --wayland
+dbus-run-session -- gnome-shell --devkit --wayland

@@ -25,9 +25,13 @@ const defaultQueryParameters = {
 
 const ensurePrerequisites = async () => {
   const settings = new SettingsHandler()
+  const cachedMeta = settings.yahoo_meta || {}
+  let expiration = settings?.yahoo_meta?.expiration || 0
+  const crumbStr = (cachedMeta.crumb || '').toString()
 
-  if ((settings?.yahoo_meta?.expiration || 0) > Date.now()) {
-    return settings.yahoo_meta
+  // Old code cached 429 text
+  if ((expiration > Date.now())  && (!crumbStr.toLowerCase().includes('too many requests'))) {
+      return cachedMeta
   }
 
   const cookieResponse = await fetch({
@@ -41,19 +45,37 @@ const ensurePrerequisites = async () => {
     cookies: [cookie]
   })
 
+  // log(`[YahooService] crumbResponse: ${JSON.stringify(crumbResponse)}`)
+
+  const crumb = (crumbResponse?.ok && crumbResponse?.text()) ? crumbResponse?.text() : null
+  const isValid = crumb != null && cookie != null && String(crumb).trim() !== '' && String(cookie).trim() !== '';
+  expiration = isValid ? Date.now() + (30 * 24 * 60 * 60 * 1000) : 0
+
   const newMetaData = {
     cookie,
-    crumb: crumbResponse.text(),
-    expiration: Date.now() + (360 * 24 * 60 * 60 * 1000)
+    crumb,
+    expiration,
+    isValid
   }
 
   settings.yahoo_meta = newMetaData
+
+  if (!isValid) {
+    log(`[YahooService] Failed to refresh yahoo_meta:  ${JSON.stringify(settings.yahoo_meta)}`)
+  }
+
+  // log(`[YahooService] settings.yahoo_meta before return: ${JSON.stringify(settings.yahoo_meta)}`)
 
   return newMetaData
 }
 
 export const getQuoteList = async ({ symbolsWithFallbackName }) => {
   const yahooMeta = await ensurePrerequisites()
+
+  if (!yahooMeta.isValid) {
+    log("[YahooService] Skipping get quote list: yahooMeta is invalid")
+    return []
+  }
 
   const queryParameters = {
     ...defaultQueryParameters,
@@ -84,6 +106,10 @@ export const getQuoteList = async ({ symbolsWithFallbackName }) => {
 
 export const getQuoteSummary = async ({ symbol }) => {
   const yahooMeta = await ensurePrerequisites()
+  if (!yahooMeta.isValid) {
+    log("[YahooService] Skipping get quote summary: yahooMeta is invalid")
+    return {}
+  }
 
   const queryParameters = {
     ...defaultQueryParameters,
@@ -113,6 +139,10 @@ export const getQuoteSummary = async ({ symbol }) => {
 
 export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimestamps = true }) => {
   const yahooMeta = await ensurePrerequisites()
+  if (!yahooMeta.isValid) {
+    log("[YahooService] Skipping get historical quotes: yahooMeta is invalid")
+    return {}
+  }
 
   const queryParameters = {
     ...defaultQueryParameters,
@@ -139,6 +169,11 @@ export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimest
 
 export const getNewsList = async ({ symbol }) => {
   const yahooMeta = await ensurePrerequisites()
+  if (!yahooMeta.isValid) {
+    log("[YahooService] Skipping get news list: yahooMeta is invalid")
+    return {}
+  }
+
   const queryParameters = {
     crumb: yahooMeta.crumb,
   }

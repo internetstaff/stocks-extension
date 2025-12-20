@@ -21,6 +21,7 @@ CSS_FILES := $(wildcard $(SRC_DIR)/*.css)
 MEDIA_FILES := $(wildcard $(SRC_DIR)/media)
 JS_COMPONENTS := $(SRC_DIR)/components $(SRC_DIR)/helpers $(SRC_DIR)/services
 
+SCHEMA_FILES := $(wildcard $(SCHEMAS_DIR)/*.gschema.xml)
 COMPILED_SCHEMAS := $(SCHEMAS_DIR)/gschemas.compiled
 
 POT_FILE := $(PO_DIR)/$(UUID).pot
@@ -45,7 +46,7 @@ default: build
 $(BUILD_DIR):
 	mkdir -p $@
 
-$(COMPILED_SCHEMAS):
+$(COMPILED_SCHEMAS): $(SCHEMA_FILES)
 	glib-compile-schemas $(SCHEMAS_DIR)
 
 $(LOCALE_DIR)/%/LC_MESSAGES:

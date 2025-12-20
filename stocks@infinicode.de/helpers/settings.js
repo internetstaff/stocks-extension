@@ -16,6 +16,7 @@ export const STOCKS_SYMBOL_PAIRS = 'symbol-pairs'
 export const STOCKS_PORTFOLIOS = 'portfolios'
 export const STOCKS_TRANSACTIONS = 'transactions'
 export const STOCKS_TICKER_INTERVAL = 'ticker-interval'
+export const STOCKS_REFRESH_INTERVAL = 'refresh-interval'
 export const STOCKS_SHOW_OFF_MARKET_TICKER_PRICES = 'show-ticker-off-market-prices'
 export const STOCKS_TICKER_STOCK_AMOUNT = 'ticker-stock-amount'
 export const STOCKS_SELECTED_PORTFOLIO = 'selected-portfolio'
@@ -98,6 +99,20 @@ export const SettingsHandler = class SettingsHandler {
 
   set ticker_interval (value) {
     return this._settings.set_int(STOCKS_TICKER_INTERVAL, value)
+  }
+
+  get refresh_interval () {
+    const valueInMinutes = this._settings.get_int(STOCKS_REFRESH_INTERVAL)
+    if (isNullOrUndefined(valueInMinutes) || valueInMinutes < 5) {
+      // Reset to default of 15m to avoid hammering providers
+      this._settings.set_int(STOCKS_REFRESH_INTERVAL, 15)
+      return 15
+    }
+    return valueInMinutes
+  }
+
+  set refresh_interval (value) {
+    return this._settings.set_int(STOCKS_REFRESH_INTERVAL, value)
   }
 
   get ticker_stock_amount () {

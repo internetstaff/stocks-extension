@@ -47,6 +47,11 @@ export const Chart = GObject.registerClass({
       return
     }
 
+    // Check if the actor has been allocated before trying to draw
+    if (!this.get_stage() || this.get_width() === 0 || this.get_height() === 0) {
+      return
+    }
+
     const cairoContext = this.get_context()
     const [width, height] = this.get_surface_size()
 
@@ -228,6 +233,11 @@ export const Chart = GObject.registerClass({
       return
     }
 
+    // Check if the actor has been allocated before getting position
+    if (!this.get_stage() || this.get_width() === 0 || this.get_height() === 0) {
+      return
+    }
+
     // first get position then
     // check if there is an open userline otherwise open one
 
@@ -254,6 +264,11 @@ export const Chart = GObject.registerClass({
 
   _onHover (item, event) {
     if (isNullOrEmpty(this.data)) {
+      return
+    }
+
+    // Check if the actor has been allocated before getting position
+    if (!this.get_stage() || this.get_width() === 0 || this.get_height() === 0) {
       return
     }
 
