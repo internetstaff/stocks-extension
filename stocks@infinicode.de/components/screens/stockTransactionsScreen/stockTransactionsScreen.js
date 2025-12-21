@@ -30,19 +30,18 @@ const SETTING_KEYS_TO_REFRESH = [
 export const StockTransactionsScreen = GObject.registerClass({
   GTypeName: 'StockExtension_StockTransactionsScreen'
 }, class StockTransactionsScreen extends St.BoxLayout {
-  _init ({ portfolioId, quoteSummary, mainEventHandler }) {
+  _init ({ portfolioId, quoteSummary, mainEventHandler, settings }) {
     super._init({
       style_class: 'screen stock-details-screen',
       vertical: true
     })
 
     this._mainEventHandler = mainEventHandler
+    this._settings = settings
 
     this._passedQuoteSummary = quoteSummary
     this._portfolioId = portfolioId
     this._quoteSummary = null
-
-    this._settings = new SettingsHandler()
 
     const searchBar = new SearchBar({
       back_screen_name: 'overview',
@@ -128,11 +127,12 @@ export const StockTransactionsScreen = GObject.registerClass({
     const quoteSummary = await FinanceService.getQuoteSummary({
       symbol: this._passedQuoteSummary.Symbol,
       provider: this._passedQuoteSummary.Provider,
-      fallbackName: this._passedQuoteSummary.FullName
+      fallbackName: this._passedQuoteSummary.FullName,
+      settings: this._settings
     })
 
     this._quoteSummary = quoteSummary
-    const transactionResult = TransactionService.loadCalculatedTransactionsForSymbol({ portfolioId: this._portfolioId, quoteSummary: this._quoteSummary })
+    const transactionResult = TransactionService.loadCalculatedTransactionsForSymbol({ portfolioId: this._portfolioId, quoteSummary: this._quoteSummary, settings: this._settings })
 
     this._content.destroy_all_children()
 
@@ -155,7 +155,7 @@ export const StockTransactionsScreen = GObject.registerClass({
     this._list.clear_list_items()
 
     transactionResult.transactions.forEach(transaction => {
-      this._list.addItem(new TransactionCard({ portfolioId: this._portfolioId, transaction, quoteSummary: this._quoteSummary, mainEventHandler: this._mainEventHandler }))
+      this._list.addItem(new TransactionCard({ portfolioId: this._portfolioId, transaction, quoteSummary: this._quoteSummary, mainEventHandler: this._mainEventHandler, settings: this._settings }))
     })
   }
 

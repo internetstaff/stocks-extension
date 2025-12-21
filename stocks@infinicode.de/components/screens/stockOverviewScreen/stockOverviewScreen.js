@@ -23,21 +23,23 @@ const SETTING_KEYS_TO_REFRESH = [
 export const StockOverviewScreen = GObject.registerClass({
   GTypeName: 'StockExtension_StockOverviewScreen'
 }, class StockOverviewScreen extends St.BoxLayout {
-  _init (mainEventHandler) {
+  _init ({ mainEventHandler, settings, extensionObject }) {
     super._init({
       style_class: 'screen stock-overview-screen',
       vertical: true
     })
 
     this._mainEventHandler = mainEventHandler
+    this._settings = settings
 
     this._isRendering = false
     this._showLoadingInfoTimeoutId = null
     this._autoRefreshTimeoutId = null
 
-    this._settings = new SettingsHandler()
-
-    this._searchBar = new SearchBar({ mainEventHandler: this._mainEventHandler })
+    this._searchBar = new SearchBar({
+      mainEventHandler: this._mainEventHandler,
+      extensionObject: extensionObject
+    })
     this._portfolioGroup = new ButtonGroup({ buttons: [], y_expand: false })
     this._list = new FlatList({ id: 'stock_overview', persistScrollPosition: false })
 
@@ -149,12 +151,14 @@ export const StockOverviewScreen = GObject.registerClass({
     const [yahooQuoteSummaries, otherQuoteSummaries] = await Promise.all([
       FinanceService.getQuoteSummaryList({
         symbolsWithFallbackName: symbols.filter(item => item.provider === FINANCE_PROVIDER.YAHOO).map(symbolData => ({ ...symbolData, fallbackName: symbolData.name })),
-        provider: FINANCE_PROVIDER.YAHOO
+        provider: FINANCE_PROVIDER.YAHOO,
+        settings: this._settings
       }),
 
       symbols.filter(item => item.provider !== FINANCE_PROVIDER.YAHOO).map(symbolData => FinanceService.getQuoteSummary({
         ...symbolData,
-        fallbackName: symbolData.name
+        fallbackName: symbolData.name,
+        settings: this._settings
       }))
     ])
 
@@ -173,7 +177,7 @@ export const StockOverviewScreen = GObject.registerClass({
         return
       }
 
-      this._list.addItem(new StockCard(quoteSummary, this._settings.selected_portfolio))
+      this._list.addItem(new StockCard(quoteSummary, this._settings.selected_portfolio, this._settings))
     })
 
     this._filter_results(this._searchBar.search_text())

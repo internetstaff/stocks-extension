@@ -16,13 +16,14 @@ import * as FinanceService from '../../../services/financeService.js'
 export const StockDetailsScreen = GObject.registerClass({
   GTypeName: 'StockExtension_StockDetailsScreen'
 }, class StockDetailsScreen extends St.BoxLayout {
-  _init ({ portfolioId, quoteSummary, mainEventHandler }) {
+  _init ({ portfolioId, quoteSummary, mainEventHandler, settings }) {
     super._init({
       style_class: 'screen stock-details-screen',
       vertical: true
     })
 
     this._mainEventHandler = mainEventHandler
+    this._settings = settings
 
     this._passedQuoteSummary = quoteSummary
     this._portfolioId = portfolioId
@@ -37,12 +38,14 @@ export const StockDetailsScreen = GObject.registerClass({
       FinanceService.getQuoteSummary({
         symbol: this._passedQuoteSummary.Symbol,
         provider: this._passedQuoteSummary.Provider,
-        fallbackName: this._passedQuoteSummary.FullName
+        fallbackName: this._passedQuoteSummary.FullName,
+        settings: this._settings
       }),
       FinanceService.getHistoricalQuotes({
         symbol: this._passedQuoteSummary.Symbol,
         provider: this._passedQuoteSummary.Provider,
-        range: this._selectedChartRange
+        range: this._selectedChartRange,
+        settings: this._settings
       })
     ])
 

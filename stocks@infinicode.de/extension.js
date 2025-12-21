@@ -37,7 +37,7 @@ import { ScreenWrapper } from './components/screenWrapper/screenWrapper.js'
 import { MenuStockTicker } from './components/stocks/menuStockTicker.js'
 
 import { EventHandler } from './helpers/eventHandler.js'
-import { initSettings, SettingsHandler } from './helpers/settings.js'
+import { SettingsHandler } from './helpers/settings.js'
 import { initTranslations } from './helpers/translations.js'
 
 
@@ -48,11 +48,12 @@ const MenuPosition = {
 }
 
 let StocksMenuButton = GObject.registerClass(class StocksMenuButton extends PanelMenu.Button {
-  _init () {
+  _init ({ settings, extensionObject }) {
     this._previousPanelPosition = null
     this._settingsChangedId = null
 
-    this._settings = new SettingsHandler()
+    this._settings = new SettingsHandler(settings)
+    this._extensionObject = extensionObject
     this._mainEventHandler = new EventHandler()
 
     // Panel menu item - the current class
@@ -65,13 +66,17 @@ let StocksMenuButton = GObject.registerClass(class StocksMenuButton extends Pane
     super._init(menuAlignment, _('Stocks'))
     this.add_style_class_name('stocks-extension')
 
-    this.add_child(new MenuStockTicker())
+    this.add_child(new MenuStockTicker(this._settings))
 
     const bin = new St.Widget({ style_class: 'stocks-extension' })
     bin._delegate = this
     this.menu.box.add_child(bin)
 
-    this._screenWrapper = new ScreenWrapper(this._mainEventHandler)
+    this._screenWrapper = new ScreenWrapper({
+      mainEventHandler: this._mainEventHandler,
+      settings: this._settings,
+      extensionObject: this._extensionObject
+    })
     bin.add_child(this._screenWrapper)
 
     // Bind events
@@ -133,9 +138,14 @@ let _stocksMenu
 
 export default class StocksExtension extends Extension {
   enable () {
-    initSettings(this)
     initTranslations(_)
-    _stocksMenu = new StocksMenuButton()
+
+    this._settings = this.getSettings()
+
+    _stocksMenu = new StocksMenuButton({
+      settings: this._settings,
+      extensionObject: this
+    })
     Main.panel.addToStatusArea('stocksMenu', _stocksMenu)
     _stocksMenu.checkPositionInPanel()
   }
@@ -145,5 +155,6 @@ export default class StocksExtension extends Extension {
       _stocksMenu.destroy()
       _stocksMenu = null
     }
+    this._settings = null
   }
 }

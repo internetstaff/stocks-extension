@@ -15,13 +15,14 @@ export const SearchBar = GObject.registerClass({
     'refresh': {}
   }
 }, class SearchBar extends St.BoxLayout {
-  _init ({ back_screen_name, additionalDataForBackScreen, showRefreshIcon = true, showFilterInputBox = true, additionalIcons, mainEventHandler } = {}) {
+  _init ({ back_screen_name, additionalDataForBackScreen, showRefreshIcon = true, showFilterInputBox = true, additionalIcons, mainEventHandler, extensionObject } = {}) {
     super._init({
       style_class: 'search-bar',
       x_expand: true
     })
 
     this._mainEventHandler = mainEventHandler
+    this._extensionObject = extensionObject
     this.back_screen_name = back_screen_name
     this.additionalDataForBackScreen = additionalDataForBackScreen
     this.additionalIcons = additionalIcons
@@ -109,9 +110,10 @@ export const SearchBar = GObject.registerClass({
       icon_name: 'emblem-system-symbolic',
       icon_size: 18,
       onClick: () => {
-        const settings = new SettingsHandler()
         this._mainEventHandler.emit('hide-panel')
-        settings.extensionObject.openPreferences();
+        if (this._extensionObject && this._extensionObject.openPreferences) {
+          this._extensionObject.openPreferences()
+        }
       }
     })
 

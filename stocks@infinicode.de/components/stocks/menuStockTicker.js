@@ -4,7 +4,7 @@ import Pango from 'gi://Pango'
 import St from 'gi://St'
 
 import { getStockColorStyleClass, isNullOrEmpty, roundOrDefault } from '../../helpers/data.js'
-import { SettingsHandler, STOCKS_PORTFOLIOS, STOCKS_SYMBOL_PAIRS, STOCKS_TICKER_INTERVAL, STOCKS_USE_PROVIDER_INSTRUMENT_NAMES } from '../../helpers/settings.js'
+import { STOCKS_PORTFOLIOS, STOCKS_SYMBOL_PAIRS, STOCKS_TICKER_INTERVAL, STOCKS_USE_PROVIDER_INSTRUMENT_NAMES } from '../../helpers/settings.js'
 
 import { Translations } from '../../helpers/translations.js'
 import * as FinanceService from '../../services/financeService.js'
@@ -21,7 +21,7 @@ const TICKER_ITEM_VARIATION = {
 export const MenuStockTicker = GObject.registerClass({
   GTypeName: 'StockExtension_MenuStockTicker'
 }, class MenuStockTicker extends St.BoxLayout {
-  _init () {
+  _init (settings) {
     super._init({
       style_class: 'menu-stock-ticker',
       y_align: Clutter.ActorAlign.CENTER,
@@ -36,7 +36,7 @@ export const MenuStockTicker = GObject.registerClass({
     this._quoteSummariesCache = null
     this._lastFetchTime = 0
 
-    this._settings = new SettingsHandler()
+    this._settings = settings
     this._sync().catch(e => console.error(e))
 
     this.connect('destroy', this._onDestroy.bind(this))
@@ -91,12 +91,14 @@ export const MenuStockTicker = GObject.registerClass({
       const [yahooQuoteSummaries, otherQuoteSummaries] = await Promise.all([
         FinanceService.getQuoteSummaryList({
           symbolsWithFallbackName: tickerEnabledItems.filter(item => item.provider === FINANCE_PROVIDER.YAHOO).map(symbolData => ({ ...symbolData, fallbackName: symbolData.name })),
-          provider: FINANCE_PROVIDER.YAHOO
+          provider: FINANCE_PROVIDER.YAHOO,
+          settings: this._settings
         }),
 
         tickerEnabledItems.filter(item => item.provider !== FINANCE_PROVIDER.YAHOO).map(symbolData => FinanceService.getQuoteSummary({
           ...symbolData,
-          fallbackName: symbolData.name
+          fallbackName: symbolData.name,
+          settings: this._settings
         }))
       ])
 

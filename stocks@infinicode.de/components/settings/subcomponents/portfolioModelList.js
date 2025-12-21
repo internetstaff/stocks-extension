@@ -18,10 +18,10 @@ export const PortfolioModelList = GObject.registerClass({
   #items = []
   #changedId
 
-  constructor () {
+  constructor (settings) {
     super()
 
-    this._settings = new SettingsHandler()
+    this._settings = new SettingsHandler(settings)
     this.#items = this.convert_items()
 
     this.#changedId =

@@ -1,8 +1,7 @@
 import Gio from 'gi://Gio'
 
-import { SettingsHandler } from './settings.js'
-
-export const getCustomIconPath = iconName => {
-  const settings = new SettingsHandler()
-  return Gio.icon_new_for_string(settings.extensionObject.path + '/icons/' + iconName + '.svg')
+// Note: getCustomIconPath is currently unused in the codebase (all isCustomIcon flags are false)
+// If custom icons are needed in the future, pass extensionObject.path as the second parameter
+export const getCustomIconPath = (iconName, extensionPath) => {
+  return Gio.icon_new_for_string(`${extensionPath}/media/${iconName}.svg`)
 }

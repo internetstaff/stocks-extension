@@ -12,7 +12,7 @@ import * as TransactionService from '../../services/transactionService.js'
 export const TransactionCard = GObject.registerClass({
   GTypeName: 'StockExtension_TransactionCard'
 }, class TransactionCard extends St.Button {
-  _init ({ portfolioId, transaction, quoteSummary, mainEventHandler }) {
+  _init ({ portfolioId, transaction, quoteSummary, mainEventHandler, settings }) {
     super._init({
       style_class: 'card message transaction-card',
       can_focus: true,
@@ -23,6 +23,7 @@ export const TransactionCard = GObject.registerClass({
     this._quoteSummary = quoteSummary
     this._portfolioId = portfolioId
     this._mainEventHandler = mainEventHandler
+    this._settings = settings
 
     const vContentBox = new St.BoxLayout({
       vertical: true,
@@ -248,7 +249,7 @@ export const TransactionCard = GObject.registerClass({
   }
 
   _removeItem () {
-    TransactionService.remove({ portfolioId: this._portfolioId, transaction: this.cardItem, symbol: this._quoteSummary.Symbol })
+    TransactionService.remove({ portfolioId: this._portfolioId, transaction: this.cardItem, symbol: this._quoteSummary.Symbol, settings: this._settings })
   }
 
   _sync () {

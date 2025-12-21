@@ -1,5 +1,4 @@
 import { cacheOrDefault } from '../helpers/data.js'
-import { SettingsHandler } from '../helpers/settings.js'
 
 import { FINANCE_PROVIDER } from './meta/generic.js'
 import { QuoteSummary } from './dto/quoteSummary.js'
@@ -12,9 +11,8 @@ const services = {
   [FINANCE_PROVIDER.EAST_MONEY]: eastMoneyService
 }
 
-export const getQuoteSummaryList = async ({ symbolsWithFallbackName, provider }) => {
-  const settings = new SettingsHandler()
-
+export const getQuoteSummaryList = async ({ symbolsWithFallbackName, provider, settings = null }) => {
+  // Settings parameter is optional - defaults to using provider instrument names if not provided
   return cacheOrDefault(`summary_list_${symbolsWithFallbackName.map(item => item.symbol).sort().join('-')}_${provider}`, async () => {
     const service = services[provider]
 
@@ -26,20 +24,18 @@ export const getQuoteSummaryList = async ({ symbolsWithFallbackName, provider })
 
     symbolsWithFallbackName = symbolsWithFallbackName.map(item => ({
       ...item,
-      forceFallbackName: !settings.use_provider_instrument_names
+      forceFallbackName: settings ? !settings.use_provider_instrument_names : false
     }))
 
     if (symbolsWithFallbackName?.length > 0) {
-      resultList = await service.getQuoteList({ symbolsWithFallbackName })
+      resultList = await service.getQuoteList({ symbolsWithFallbackName, settings })
     }
 
     return resultList
   })
 }
 
-export const getQuoteSummary = async ({ symbol, provider, fallbackName }) => {
-  const settings = new SettingsHandler()
-
+export const getQuoteSummary = async ({ symbol, provider, fallbackName, settings = null }) => {
   return cacheOrDefault(`summary_${symbol}_${provider}`, async () => {
     const service = services[provider]
 
@@ -50,14 +46,14 @@ export const getQuoteSummary = async ({ symbol, provider, fallbackName }) => {
     let summary = {}
 
     if (symbol) {
-      summary = await service.getQuoteSummary({ symbol })
+      summary = await service.getQuoteSummary({ symbol, settings })
     }
 
     if (!summary.Symbol) {
       summary.Symbol = symbol
     }
 
-    if (!summary.FullName || !settings.use_provider_instrument_names) {
+    if (!summary.FullName || (settings && !settings.use_provider_instrument_names)) {
       summary.FullName = fallbackName
     }
 
@@ -65,22 +61,22 @@ export const getQuoteSummary = async ({ symbol, provider, fallbackName }) => {
   })
 }
 
-export const getHistoricalQuotes = async ({ symbol, provider, range = '1y', includeTimestamps = true }) => {
+export const getHistoricalQuotes = async ({ symbol, provider, range = '1y', includeTimestamps = true, settings = null }) => {
   return cacheOrDefault(`chart_${symbol}_${provider}_${range}`, () => {
     const service = services[provider]
 
     if (symbol && service) {
-      return service.getHistoricalQuotes({ symbol, range, includeTimestamps })
+      return service.getHistoricalQuotes({ symbol, range, includeTimestamps, settings })
     }
   })
 }
 
-export const getNewsList = async ({ symbol, provider }) => {
+export const getNewsList = async ({ symbol, provider, settings = null }) => {
   return cacheOrDefault(`news_${provider}_${symbol}`, () => {
     const service = services[provider]
 
     if (symbol && service) {
-      return service.getNewsList({ symbol })
+      return service.getNewsList({ symbol, settings })
     }
   }, 15 * 60 * 1000)
 }

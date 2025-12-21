@@ -1,5 +1,4 @@
 import { fetch } from '../helpers/fetch.js'
-import { SettingsHandler } from '../helpers/settings.js'
 import { createNewsListFromYahooData } from './dto/newsList.js'
 import { createQuoteHistoricalFromYahooData } from './dto/quoteHistorical.js'
 import { createQuoteSummaryFromYahooData, createQuoteSummaryFromYahooQuoteListData } from './dto/quoteSummary.js'
@@ -23,8 +22,7 @@ const defaultQueryParameters = {
 
 // const createQuoteSummaryFromYahooData = createQuoteSummaryFromYahooDataV6;
 
-const ensurePrerequisites = async () => {
-  const settings = new SettingsHandler()
+const ensurePrerequisites = async (settings) => {
   const cachedMeta = settings.yahoo_meta || {}
   let expiration = settings?.yahoo_meta?.expiration || 0
   const crumbStr = (cachedMeta.crumb || '').toString()
@@ -45,7 +43,7 @@ const ensurePrerequisites = async () => {
     cookies: [cookie]
   })
 
-  // console.log(`[YahooService] crumbResponse: ${JSON.stringify(crumbResponse)}`)
+  // console.debug(`[YahooService] crumbResponse: ${JSON.stringify(crumbResponse)}`)
 
   const crumb = (crumbResponse?.ok && crumbResponse?.text()) ? crumbResponse?.text() : null
   const isValid = crumb != null && cookie != null && String(crumb).trim() !== '' && String(cookie).trim() !== '';
@@ -64,13 +62,13 @@ const ensurePrerequisites = async () => {
     console.warn(`[YahooService] Failed to refresh yahoo_meta:  ${JSON.stringify(settings.yahoo_meta)}`)
   }
 
-  // console.log(`[YahooService] settings.yahoo_meta before return: ${JSON.stringify(settings.yahoo_meta)}`)
+  // console.debug(`[YahooService] settings.yahoo_meta before return: ${JSON.stringify(settings.yahoo_meta)}`)
 
   return newMetaData
 }
 
-export const getQuoteList = async ({ symbolsWithFallbackName }) => {
-  const yahooMeta = await ensurePrerequisites()
+export const getQuoteList = async ({ symbolsWithFallbackName, settings }) => {
+  const yahooMeta = await ensurePrerequisites(settings)
 
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get quote list: yahooMeta is invalid")
@@ -104,8 +102,8 @@ export const getQuoteList = async ({ symbolsWithFallbackName }) => {
   return createQuoteSummaryFromYahooQuoteListData(params)
 }
 
-export const getQuoteSummary = async ({ symbol }) => {
-  const yahooMeta = await ensurePrerequisites()
+export const getQuoteSummary = async ({ symbol, settings }) => {
+  const yahooMeta = await ensurePrerequisites(settings)
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get quote summary: yahooMeta is invalid")
     return {}
@@ -137,8 +135,8 @@ export const getQuoteSummary = async ({ symbol }) => {
   return createQuoteSummaryFromYahooData(params)
 }
 
-export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimestamps = true }) => {
-  const yahooMeta = await ensurePrerequisites()
+export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimestamps = true, settings }) => {
+  const yahooMeta = await ensurePrerequisites(settings)
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get historical quotes: yahooMeta is invalid")
     return {}
@@ -167,8 +165,8 @@ export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimest
   }
 }
 
-export const getNewsList = async ({ symbol }) => {
-  const yahooMeta = await ensurePrerequisites()
+export const getNewsList = async ({ symbol, settings }) => {
+  const yahooMeta = await ensurePrerequisites(settings)
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get news list: yahooMeta is invalid")
     return {}

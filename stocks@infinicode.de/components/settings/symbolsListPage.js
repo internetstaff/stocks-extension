@@ -15,14 +15,14 @@ export const SymbolsListPage = GObject.registerClass({
       GTypeName: 'StockExtension-SymbolsListPage',
     },
     class SymbolsListPreferencePage extends Adw.PreferencesPage {
-      _init (portfolioItem) {
+      _init (portfolioItem, settings) {
         super._init({
           title: Translations.SETTINGS.TITLE_SYMBOLS,
           icon_name: 'view-list-symbolic',
           name: 'SymbolsListPage'
         })
 
-        const preferenceGroup = new SymbolListPreferenceGroup(portfolioItem)
+        const preferenceGroup = new SymbolListPreferenceGroup(portfolioItem, settings)
         this.add(preferenceGroup)
       }
     })
@@ -40,18 +40,12 @@ class SymbolListPreferenceGroup extends Adw.PreferencesGroup {
     })
   }
 
-  constructor (portfolioItem) {
+  constructor (portfolioItem, settings) {
     super()
 
-    let symbols = []
-    this._settings = new SettingsHandler()
+    this._settings = new SettingsHandler(settings)
 
-    try {
-      symbols = JSON.parse(portfolioItem.symbols || '[]')
-    } catch (e) {
-    }
-
-    this._symbolModelList = new SymbolModelList(portfolioItem.id, symbols)
+    this._symbolModelList = new SymbolModelList(portfolioItem.id, settings)
 
     const store = new Gio.ListStore({ item_type: Gio.ListModel })
     const listModel = new Gtk.FlattenListModel({ model: store })

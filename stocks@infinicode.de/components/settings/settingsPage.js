@@ -9,14 +9,14 @@ export const SettingsPage = GObject.registerClass({
       GTypeName: 'StockExtension-SettingsPage',
     },
     class StockListPreferencePage extends Adw.PreferencesPage {
-      _init () {
+      _init (settings) {
         super._init({
           title: Translations.SETTINGS.TITLE_SETTINGS,
           icon_name: 'view-list-symbolic',
           name: 'SettingsPage'
         })
 
-        const preferenceGroup = new GeneralPreferenceGroup()
+        const preferenceGroup = new GeneralPreferenceGroup(settings)
         this.add(preferenceGroup)
       }
     })
@@ -26,12 +26,12 @@ class GeneralPreferenceGroup extends Adw.PreferencesGroup {
     GObject.registerClass({ GTypeName: 'StockExtension-GeneralPreferenceGroup' }, this)
   }
 
-  constructor () {
+  constructor (settings) {
     super({
       title: Translations.SETTINGS.TITLE_GENERAL
     })
 
-    this._settings = new SettingsHandler()
+    this._settings = new SettingsHandler(settings)
 
     const panelPositions = new Gtk.StringList()
     panelPositions.append(Translations.SETTINGS.POSITION_IN_PANEL_LEFT)

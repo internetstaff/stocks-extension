@@ -1,10 +1,8 @@
 import Gio from 'gi://Gio'
 
-import { SettingsHandler } from '../helpers/settings.js'
 import { TRANSACTION_TYPES } from './meta/generic.js'
 
-export const loadCalculatedTransactionsForSymbol = ({ portfolioId, quoteSummary }) => {
-  const settings = new SettingsHandler()
+export const loadCalculatedTransactionsForSymbol = ({ portfolioId, quoteSummary, settings }) => {
   const transactionsBySymbol = ((settings.transactions[portfolioId] || {})[quoteSummary.Symbol] || []).sort((a, b) => a.date.localeCompare(b.date))
   const sellTransactions = transactionsBySymbol.filter(item => item.type === TRANSACTION_TYPES.SELL)
   const buyTransactions = transactionsBySymbol.filter(item => item.type === TRANSACTION_TYPES.BUY)
@@ -91,8 +89,7 @@ export const loadCalculatedTransactionsForSymbol = ({ portfolioId, quoteSummary 
   }
 }
 
-export const save = ({ portfolioId, symbol, transaction }) => {
-  const settings = new SettingsHandler()
+export const save = ({ portfolioId, symbol, transaction, settings }) => {
   const transactions = settings.transactions
   const transactionsByPortfolio = transactions[portfolioId] || {}
   const transactionsBySymbol = transactionsByPortfolio[symbol] || []
@@ -119,8 +116,7 @@ export const save = ({ portfolioId, symbol, transaction }) => {
   settings.transactions = transactions
 }
 
-export const remove = ({ portfolioId, symbol, transaction }) => {
-  const settings = new SettingsHandler()
+export const remove = ({ portfolioId, symbol, transaction, settings }) => {
   const transactions = settings.transactions
   const transactionsByPortfolio = transactions[portfolioId] || {}
   const transactionsBySymbol = transactionsByPortfolio[symbol] || []

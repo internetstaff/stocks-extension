@@ -11,13 +11,14 @@ import * as TransactionService from '../../../services/transactionService.js'
 export const EditTransactionScreen = GObject.registerClass({
   GTypeName: 'StockExtension_EditTransactionScreen'
 }, class EditTransactionScreen extends St.BoxLayout {
-  _init ({ portfolioId, quoteSummary, transaction, mainEventHandler }) {
+  _init ({ portfolioId, quoteSummary, transaction, mainEventHandler, settings }) {
     super._init({
       style_class: 'screen edit-screen edit-transaction-screen',
       vertical: true
     })
 
     this._mainEventHandler = mainEventHandler
+    this._settings = settings
     this.transaction = transaction || {}
     this._saveDelayTimeOutId = null
 
@@ -172,7 +173,7 @@ export const EditTransactionScreen = GObject.registerClass({
     if (error) {
       this._errorPlaceHolder.text = error
     } else {
-      TransactionService.save({ portfolioId: this._portfolioId, transaction: this.newTransaction, symbol: this._quoteSummary.Symbol })
+      TransactionService.save({ portfolioId: this._portfolioId, transaction: this.newTransaction, symbol: this._quoteSummary.Symbol, settings: this._settings })
 
       // FIXME: had to set this timeout otherwise some weird stuff will happen
       // clutter_actor_contains: assertion 'CLUTTER_IS_ACTOR (descendant)' failed

@@ -21,11 +21,11 @@ export const SymbolModelList = GObject.registerClass({
   #items = []
   #changedId
 
-  constructor (portfolioId) {
+  constructor (portfolioId, settings) {
     super()
 
     this._portfolioId = portfolioId
-    this._settings = new SettingsHandler()
+    this._settings = new SettingsHandler(settings)
     this.#items = this.convert_items()
 
     this.#changedId =

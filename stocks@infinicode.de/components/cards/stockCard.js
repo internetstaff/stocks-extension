@@ -11,7 +11,7 @@ import * as TransactionService from '../../services/transactionService.js'
 export const StockCard = GObject.registerClass({
   GTypeName: 'StockExtension_StockCard'
 }, class StockCard extends St.Button {
-  _init (quoteSummary, portfolioId) {
+  _init (quoteSummary, portfolioId, settings) {
     super._init({
       style_class: 'card message stock-card',
       can_focus: true,
@@ -19,7 +19,7 @@ export const StockCard = GObject.registerClass({
     })
 
     this.cardItem = quoteSummary
-    const transactionResult = TransactionService.loadCalculatedTransactionsForSymbol({ portfolioId, quoteSummary })
+    const transactionResult = TransactionService.loadCalculatedTransactionsForSymbol({ portfolioId, quoteSummary, settings })
 
     const vContentBox = new St.BoxLayout({
       vertical: true,

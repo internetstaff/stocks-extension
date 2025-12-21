@@ -4,7 +4,6 @@ import Gtk from 'gi://Gtk'
 import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js'
 
 import { initTranslations } from './helpers/translations.js'
-import { initSettings } from './helpers/settings.js'
 
 import { AboutPage } from './components/settings/aboutPage.js'
 import { PortfolioListPage } from './components/settings/portfolioListPage.js'
@@ -12,7 +11,6 @@ import { SettingsPage } from './components/settings/settingsPage.js'
 
 export default class StocksExtensionPreferences extends ExtensionPreferences {
   fillPreferencesWindow (window) {
-    initSettings(this)
     initTranslations(_)
 
     let iconTheme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
@@ -22,10 +20,12 @@ export default class StocksExtensionPreferences extends ExtensionPreferences {
 
     window.set_search_enabled(true)
 
-    const portfolioListPage = new PortfolioListPage()
+    const settings = this.getSettings()
+
+    const portfolioListPage = new PortfolioListPage(settings)
     window.add(portfolioListPage)
 
-    const settingsPage = new SettingsPage()
+    const settingsPage = new SettingsPage(settings)
     window.add(settingsPage)
 
     const aboutPage = new AboutPage(this.path, this.metadata)

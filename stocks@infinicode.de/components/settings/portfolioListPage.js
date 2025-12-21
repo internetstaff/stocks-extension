@@ -17,14 +17,14 @@ export const PortfolioListPage = GObject.registerClass({
       GTypeName: 'StockExtension-PortfolioListPage',
     },
     class PortfoliosListPreferencePage extends Adw.PreferencesPage {
-      _init () {
+      _init (settings) {
         super._init({
           title: Translations.SETTINGS.TITLE_PORTFOLIOS,
           icon_name: 'view-list-symbolic',
           name: 'PortfolioListPage'
         })
 
-        const preferenceGroup = new PortfolioListPreferenceGroup()
+        const preferenceGroup = new PortfolioListPreferenceGroup(settings)
         this.add(preferenceGroup)
       }
     })
@@ -42,12 +42,13 @@ class PortfolioListPreferenceGroup extends Adw.PreferencesGroup {
     })
   }
 
-  constructor () {
+  constructor (settings) {
     super({
       title: Translations.SETTINGS.TITLE_PORTFOLIOS_LIST,
     })
 
-    this._portfolioModelList = new PortfolioModelList()
+    this._settings = settings
+    this._portfolioModelList = new PortfolioModelList(settings)
 
     const store = new Gio.ListStore({ item_type: Gio.ListModel })
     const listModel = new Gtk.FlattenListModel({ model: store })
@@ -62,7 +63,7 @@ class PortfolioListPreferenceGroup extends Adw.PreferencesGroup {
     this._list.connect('row-activated', (l, row) => {
       const window = this.get_root()
 
-      const subPage = new SubPage(`${row.item.name || '-'} Symbols`, new SymbolsListPage(row.item))
+      const subPage = new SubPage(`${row.item.name || '-'} Symbols`, new SymbolsListPage(row.item, this._settings))
 
       window.present_subpage(subPage)
     })
