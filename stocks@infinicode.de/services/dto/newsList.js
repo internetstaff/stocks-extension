@@ -33,8 +33,8 @@ export const createNewsListFromYahooData = (responseData, type, error) => {
 
       return previewItem
     })
-  }catch (e) {
-    log(`failed to parse news xml ${e}`)
+  } catch (e) {
+    console.error(`failed to parse news xml ${e}`)
   }
 
   return newObject

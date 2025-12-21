@@ -67,7 +67,7 @@ export const StockTransactionsScreen = GObject.registerClass({
     })
 
     searchBar.connect('refresh', () => {
-      this._sync().catch(e => log(e))
+      this._sync().catch(e => console.error(e))
     })
 
     this._content = new St.BoxLayout({
@@ -115,13 +115,13 @@ export const StockTransactionsScreen = GObject.registerClass({
 
     this._settingsChangedId = this._settings.connect('changed', (value, key) => {
       if (SETTING_KEYS_TO_REFRESH.includes(key)) {
-        this._sync().catch(e => log(e))
+        this._sync().catch(e => console.error(e))
       }
     })
 
     this.connect('destroy', this._onDestroy.bind(this))
 
-    this._sync().catch(e => log(e))
+    this._sync().catch(e => console.error(e))
   }
 
   async _sync () {

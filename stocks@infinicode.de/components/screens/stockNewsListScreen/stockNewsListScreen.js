@@ -71,14 +71,14 @@ export const StockNewsListScreen = GObject.registerClass({
 
     this._searchBar.connect('refresh', () => {
       removeCache(`news_${this._passedQuoteSummary.Provider}_${this._passedQuoteSummary.Symbol}`)
-      this._loadData().catch(e => log(e))
+      this._loadData().catch(e => console.error(e))
     })
 
     this._searchBar.connect('text-change', (sender, searchText) => this._filter_results(searchText))
 
     this._list.connect('clicked-item', (sender, item) => Gio.AppInfo.launch_default_for_uri_async(item.cardItem.Link, null, null, null))
 
-    this._loadData().catch(e => log(e))
+    this._loadData().catch(e => console.error(e))
   }
 
   async _loadData () {

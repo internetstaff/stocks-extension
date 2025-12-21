@@ -49,7 +49,7 @@ export const StockOverviewScreen = GObject.registerClass({
 
     this._searchBar.connect('refresh', () => {
       removeCache('summary_')
-      this._loadData().catch(e => log(e))
+      this._loadData().catch(e => console.error(e))
       this._createPortfolioButtonGroup()
     })
 
@@ -57,7 +57,7 @@ export const StockOverviewScreen = GObject.registerClass({
 
     this._settingsChangedId = this._settings.connect('changed', (value, key) => {
       if (SETTING_KEYS_TO_REFRESH.includes(key)) {
-        this._loadData().catch(e => log(e))
+        this._loadData().catch(e => console.error(e))
         this._createPortfolioButtonGroup()
       }
     })
@@ -72,7 +72,7 @@ export const StockOverviewScreen = GObject.registerClass({
 
     this._createPortfolioButtonGroup()
 
-    this._loadData().catch(e => log(e))
+    this._loadData().catch(e => console.error(e))
 
     this._registerTimeout()
   }

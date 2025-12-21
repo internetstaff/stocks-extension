@@ -72,7 +72,7 @@ export const fetch = ({ url, method = 'GET', headers, queryParameters, customHtt
   return new Promise(resolve => {
     url = url + generateQueryString(queryParameters)
 
-    // log(`Fetching url: ${url}`)
+    // console.log(`Fetching url: ${url}`)
 
     const request_message = Soup.Message.new(method, url)
 
@@ -99,7 +99,7 @@ export const fetch = ({ url, method = 'GET', headers, queryParameters, customHtt
         const decoder = new TextDecoder()
         body = decoder.decode(bytes.get_data())
       } catch (e) {
-        log(`Could not parse soup response body ${e}`)
+        console.error(`Could not parse soup response body ${e}`)
       }
 
       const response = new Response(request_message, body)

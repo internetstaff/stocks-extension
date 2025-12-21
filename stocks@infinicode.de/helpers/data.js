@@ -30,7 +30,7 @@ export const decodeBase64JsonOrDefault = (encodedJson, defaultValue) => {
 
     return value
   } catch (e) {
-    log(`failed to decode base64 json ${e}`)
+    console.error(`failed to decode base64 json ${e}`)
     return defaultValue
   }
 }

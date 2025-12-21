@@ -29,7 +29,7 @@ export const StockDetailsScreen = GObject.registerClass({
     this._selectedChartRange = CHART_RANGES.INTRADAY
     this._quoteSummary = null
 
-    this._sync().catch(e => log(e))
+    this._sync().catch(e => console.error(e))
   }
 
   async _sync () {
@@ -60,7 +60,7 @@ export const StockDetailsScreen = GObject.registerClass({
 
     searchBar.connect('refresh', () => {
       clearCache()
-      this._sync().catch(e => log(e))
+      this._sync().catch(e => console.error(e))
     })
 
     const stockDetailsTabButtonGroup = new ButtonGroup({
@@ -108,7 +108,7 @@ export const StockDetailsScreen = GObject.registerClass({
 
     chartRangeButtonGroup.connect('clicked', (_, stButton) => {
       this._selectedChartRange = stButton.buttonData.value
-      this._sync().catch(e => log(e))
+      this._sync().catch(e => console.error(e))
     })
 
     this._chart = new Chart({
