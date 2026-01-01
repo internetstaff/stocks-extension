@@ -47,8 +47,6 @@
 
 /* make position consistent to panel icon */
 .stocks-extension .menu-stock-ticker {
-    max-width: 200px;
-    width: 200px;
 }
 
 .stocks-extension .menu-stock-ticker .stock-info-box,
@@ -78,9 +76,6 @@
     margin-right: 10px;
 }
 
-.stocks-extension .menu-stock-ticker .separator {
-    margin: 0 10px;
-}
 
 .stocks-extension .search-bar {
     height: 40px;

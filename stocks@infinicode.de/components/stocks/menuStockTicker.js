@@ -120,7 +120,7 @@ export const MenuStockTicker = GObject.registerClass({
 
     const tickerItemCreationFn = this._getTickerItemCreationFunction()
 
-    tickerBatch.forEach((symbolData, index) => {
+    tickerBatch.forEach((symbolData) => {
       const { symbol, provider } = symbolData
 
       const quoteSummary = quoteSummaries?.find(item => item.Symbol === symbol && item.Provider === provider)
@@ -131,19 +131,6 @@ export const MenuStockTicker = GObject.registerClass({
 
       const stockTickerItemBox = tickerItemCreationFn.call(this, quoteSummary)
       this.add_child(stockTickerItemBox)
-
-      if (index + 1 !== quoteSummaries.length) {
-        const separatorBin = new St.Bin({
-          style_class: 'separator-bin',
-          y_align: Clutter.ActorAlign.CENTER,
-          child: new St.Label({
-            style_class: 'separator',
-            text: '|'
-          })
-        })
-
-        this.add_child(separatorBin)
-      }
     })
   }
 
