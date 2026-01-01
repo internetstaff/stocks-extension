@@ -1,6 +1,5 @@
 import Adw from 'gi://Adw'
 import GObject from 'gi://GObject'
-import GdkPixbuf from 'gi://GdkPixbuf'
 import GLib from 'gi://GLib'
 import Gtk from 'gi://Gtk'
 
@@ -125,29 +124,6 @@ export const AboutPage = GObject.registerClass({
 
         this.add(extensionInfoGroup)
         //-----------------------------------------------------------------------
-
-        let linksGroup = new Adw.PreferencesGroup()
-        let linksBox = new Adw.ActionRow()
-
-        let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(extensionPath + '/media/donate-icon.svg', -1, 50, true)
-        let donateImage = Gtk.Picture.new_for_pixbuf(pixbuf)
-        let donateLinkButton = new Gtk.LinkButton({
-          child: donateImage,
-          uri: 'https://www.paypal.com/donate/?hosted_button_id=US78C8SZ6UHHQ',
-        })
-
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(extensionPath + '/media/source-icon.svg', -1, 50, true)
-        let sourceCodeImage = Gtk.Picture.new_for_pixbuf(pixbuf)
-        let projectUrl = metadata?.url
-        let projectLinkButton = new Gtk.LinkButton({
-          child: sourceCodeImage,
-          uri: projectUrl,
-        })
-
-        linksBox.add_prefix(projectLinkButton)
-        linksBox.add_suffix(donateLinkButton)
-        linksGroup.add(linksBox)
-        this.add(linksGroup)
 
         let gnuSoftwareGroup = new Adw.PreferencesGroup()
         let gnuSofwareLabel = new Gtk.Label({

@@ -18,8 +18,6 @@ export default class StocksExtensionPreferences extends ExtensionPreferences {
       iconTheme.add_search_path(this.path + '/media')
     }
 
-    window.set_search_enabled(true)
-
     const settings = this.getSettings()
 
     const portfolioListPage = new PortfolioListPage(settings)
@@ -30,5 +28,7 @@ export default class StocksExtensionPreferences extends ExtensionPreferences {
 
     const aboutPage = new AboutPage(this.path, this.metadata)
     window.add(aboutPage)
+
+    window.set_search_enabled(true)
   }
 }

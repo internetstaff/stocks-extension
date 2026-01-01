@@ -58,7 +58,7 @@ class GeneralPreferenceGroup extends Adw.PreferencesGroup {
     const tickerDisplayVariationRow = new Adw.ComboRow({
       title: Translations.SETTINGS.TICKER_DISPLAY_VARIATION.TITLE,
       model: tickerDisplayVariations,
-      selected: this._settings.position_in_panel
+      selected: this._settings.ticker_display_variation
     })
 
     tickerDisplayVariationRow.connect('notify::selected', (widget) => {
