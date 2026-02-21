@@ -3,7 +3,6 @@ import Soup from 'gi://Soup'
 const DEFAULT_TIME_OUT_IN_SECONDS = 10
 const DEFAULT_CHROME_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
 
-const _httpSession = new Soup.Session({ timeout: DEFAULT_TIME_OUT_IN_SECONDS })
 
 const Response = class {
   constructor (message, body) {
@@ -89,7 +88,7 @@ export const fetch = ({ url, method = 'GET', headers, queryParameters, customHtt
       appendCookies(request_message, cookies)
     }
 
-    const httpSession = customHttpSession || _httpSession
+    const httpSession = customHttpSession || new Soup.Session({ timeout: DEFAULT_TIME_OUT_IN_SECONDS })
 
     httpSession.send_and_read_async(request_message, null, null, (source, response_message) => {
       let body = ''

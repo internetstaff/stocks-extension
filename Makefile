@@ -66,19 +66,20 @@ $(MO_FILES): $(PO_FILES) $(MO_DIR)
 $(LOCALE_DIR)/%/LC_MESSAGES/$(UUID).mo: $(PO_DIR)/%.po
 	msgfmt -c $< -o $@
 
-build: $(BUILD_DIR) $(COMPILED_SCHEMAS) $(MO_FILES)
+build: $(BUILD_DIR) $(MO_FILES)
 	cp -r --parents $(FILES) $<
 
-package: $(BUILD_DIR)
+package: build
 	cd $(BUILD_DIR)/${SRC_DIR} && zip -r ../$(EXTENSION_NAME)-extension.zip *
 
 install: build
 	rm -rf $(INSTALL_DIR)
 	mkdir -p $(INSTALL_DIR)
 	cp -r $(BUILD_DIR)/${SRC_DIR}/* $(INSTALL_DIR)
+	glib-compile-schemas $(INSTALL_DIR)/schemas
 
 clean:
-	rm -f $(COMPILED_SCHEMAS) $(MO_FILES)
+	rm -f $(MO_FILES)
 
 mrproper: clean
 	rm -rf $(BUILD_DIR) $(LOCALE_DIR)
