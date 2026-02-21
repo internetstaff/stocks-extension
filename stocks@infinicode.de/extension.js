@@ -1,9 +1,5 @@
-/* jshint esnext:true */
 /*
  *
- *  GNOME Shell Extension for the great Taskwarrior application
- *  - Displays pending Tasks.
- *  - adding / modifieing tasks.
  *
  * Copyright (C) 2020
  *     Florijan Hamzic <fh @ infinicode.de>
@@ -38,6 +34,7 @@ import { MenuStockTicker } from './components/stocks/menuStockTicker.js'
 
 import { EventHandler } from './helpers/eventHandler.js'
 import { SettingsHandler } from './helpers/settings.js'
+import { clearCache } from './helpers/data.js'
 import { initTranslations } from './helpers/translations.js'
 
 
@@ -47,7 +44,7 @@ const MenuPosition = {
   RIGHT: 2
 }
 
-let StocksMenuButton = GObject.registerClass(class StocksMenuButton extends PanelMenu.Button {
+const StocksMenuButton = GObject.registerClass(class StocksMenuButton extends PanelMenu.Button {
   _init ({ settings, extensionObject }) {
     this._previousPanelPosition = null
     this._settingsChangedId = null
@@ -134,26 +131,25 @@ let StocksMenuButton = GObject.registerClass(class StocksMenuButton extends Pane
   }
 })
 
-let _stocksMenu
-
 export default class StocksExtension extends Extension {
   enable () {
+    clearCache()
     initTranslations(_)
 
     this._settings = this.getSettings()
 
-    _stocksMenu = new StocksMenuButton({
+    this._stocksMenu = new StocksMenuButton({
       settings: this._settings,
       extensionObject: this
     })
-    Main.panel.addToStatusArea('stocksMenu', _stocksMenu)
-    _stocksMenu.checkPositionInPanel()
+    Main.panel.addToStatusArea('stocksMenu', this._stocksMenu)
+    this._stocksMenu.checkPositionInPanel()
   }
 
   disable () {
-    if (_stocksMenu) {
-      _stocksMenu.destroy()
-      _stocksMenu = null
+    if (this._stocksMenu) {
+      this._stocksMenu.destroy()
+      this._stocksMenu = null
     }
     this._settings = null
   }

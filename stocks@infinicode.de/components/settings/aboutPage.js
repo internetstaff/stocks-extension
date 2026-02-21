@@ -144,6 +144,6 @@ export const AboutPage = GObject.registerClass({
 
 const GNU_SOFTWARE = '<span size="small">' +
     'This program comes with absolutely no warranty.\n' +
-    'See the <a href="https://gnu.org/licenses/old-licenses/gpl-2.0.html">' +
-    'GNU General Public License, version 2 or later</a> for details.' +
+    'See the <a href="https://www.gnu.org/licenses/gpl-3.0.html">' +
+    'GNU General Public License, version 3 or later</a> for details.' +
     '</span>';
