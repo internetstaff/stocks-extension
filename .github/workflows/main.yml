@@ -1,0 +1,60 @@
+name: Build & Release
+
+on:
+  push:
+    branches:
+      - "*"
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build & Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install packages
+        run: sudo apt-get update -y && sudo apt-get install -y gettext
+
+      - name: Build extension
+        run: make
+
+      - name: Create zip package
+        run: make package
+
+      - name: Store zip package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: stocks-extension
+          path: _build/stocks-extension.zip
+
+  release:
+    name: GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download zip package artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: stocks-extension
+          path: _build/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: _build/stocks-extension.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

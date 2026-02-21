@@ -1,6 +1,4 @@
 # [stocks-extension](https://extensions.gnome.org/extension/1422/stocks-extension/)
-[![Actions Status: Build & Create Package](https://github.com/cinatic/stocks-extension/workflows/Build%20%26%20Create%20Package/badge.svg)](https://github.com/cinatic/stocks-extension/actions?query=workflow%3A"Build+&+Create+Package")
-[![Actions Status: Build Package & Create Release](https://github.com/cinatic/stocks-extension/workflows/Build%20Package%20%26%20Create%20Release/badge.svg)](https://github.com/cinatic/stocks-extension/actions?query=workflow%3A"Build+Package+&+Create+Release")
 
 A extension to display stock quotes in GNOME Shell Panel
 
@@ -19,31 +17,31 @@ A extension to display stock quotes in GNOME Shell Panel
 
 ## Installation
 
-### Generic (Local installation)
+This extension is available in the [GNOME Shell Extension Directory](https://extensions.gnome.org/extension/1422/stocks-extension/).
+
+### Manual Installation
 
 #### Release Package
-[Download](https://github.com/cinatic/stocks-extension/releases) a release and put the content into `~/.local/share/gnome-shell/extensions/stocks@infinicode.de` (you need to create a directory).
+[Download](https://github.com/internetstaff/stocks-extension/releases) a release and put the content into `~/.local/share/gnome-shell/extensions/stocks@infinicode.de` (you need to create a directory).
 
 #### Make install
 
 Clone the repo and run `make install`
 
-### ArchLinux User Repo (thx [@flortsch](https://github.com/flortsch))
-Install the package (https://aur.archlinux.org/packages/gnome-shell-extension-stocks-extension/) e.g. by using yay:
-
-`yay -S gnome-shell-extension-stocks-extension`
-
 ## Data Provider
 
-Data is cached for 10 seconds and will reload automatically, click refresh to force a fresh pull immediately. 
-Currently, two provider are supported:
+Data is cached for no less than 5 minutes and will reload automatically. Click refresh to force a fresh pull immediately.
+
+Currently, two providers are supported:
 
  - [Yahoo Finance](https://finance.yahoo.com/)
- - [eastmony](https://www.eastmoney.com/)
+ - [eastmoney](https://www.eastmoney.com/)
+
+Eastmoney is likely to be removed if I don't hear from users.
 
 ## Add Stocks
 
-To add stocks you need the provider related symbol / identifier. You should be able to get them from yahoo finance or eastmony.com pages.
+To add stocks you need the provider related symbol / identifier. You should be able to get them from yahoo finance or eastmoney.com pages.
 
 1. Open Settings
 2. Add or Select a Portfolio
