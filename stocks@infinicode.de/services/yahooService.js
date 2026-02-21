@@ -22,7 +22,7 @@ const defaultQueryParameters = {
 
 // const createQuoteSummaryFromYahooData = createQuoteSummaryFromYahooDataV6;
 
-const ensurePrerequisites = async (settings) => {
+const ensurePrerequisites = async (settings, cancellable) => {
   const cachedMeta = settings.yahoo_meta || {}
   let expiration = settings?.yahoo_meta?.expiration || 0
   const crumbStr = (cachedMeta.crumb || '').toString()
@@ -33,14 +33,16 @@ const ensurePrerequisites = async (settings) => {
   }
 
   const cookieResponse = await fetch({
-    url: COOKIE_URL
+    url: COOKIE_URL,
+    cancellable
   })
 
   const cookie = cookieResponse.headers.get_one('set-cookie')
 
   const crumbResponse = await fetch({
     url: CRUMB_URL,
-    cookies: [cookie]
+    cookies: [cookie],
+    cancellable
   })
 
   // console.debug(`[YahooService] crumbResponse: ${JSON.stringify(crumbResponse)}`)
@@ -67,8 +69,8 @@ const ensurePrerequisites = async (settings) => {
   return newMetaData
 }
 
-export const getQuoteList = async ({ symbolsWithFallbackName, settings }) => {
-  const yahooMeta = await ensurePrerequisites(settings)
+export const getQuoteList = async ({ symbolsWithFallbackName, settings, cancellable = null }) => {
+  const yahooMeta = await ensurePrerequisites(settings, cancellable)
 
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get quote list: yahooMeta is invalid")
@@ -87,7 +89,8 @@ export const getQuoteList = async ({ symbolsWithFallbackName, settings }) => {
   const response = await fetch({
     url,
     queryParameters,
-    cookies: [yahooMeta.cookie]
+    cookies: [yahooMeta.cookie],
+    cancellable
   })
 
   const params = {
@@ -102,8 +105,8 @@ export const getQuoteList = async ({ symbolsWithFallbackName, settings }) => {
   return createQuoteSummaryFromYahooQuoteListData(params)
 }
 
-export const getQuoteSummary = async ({ symbol, settings }) => {
-  const yahooMeta = await ensurePrerequisites(settings)
+export const getQuoteSummary = async ({ symbol, settings, cancellable = null }) => {
+  const yahooMeta = await ensurePrerequisites(settings, cancellable)
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get quote summary: yahooMeta is invalid")
     return {}
@@ -120,7 +123,8 @@ export const getQuoteSummary = async ({ symbol, settings }) => {
   const response = await fetch({
     url,
     queryParameters,
-    cookies: [yahooMeta.cookie]
+    cookies: [yahooMeta.cookie],
+    cancellable
   })
 
   const params = {
@@ -135,8 +139,8 @@ export const getQuoteSummary = async ({ symbol, settings }) => {
   return createQuoteSummaryFromYahooData(params)
 }
 
-export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimestamps = true, settings }) => {
-  const yahooMeta = await ensurePrerequisites(settings)
+export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimestamps = true, settings, cancellable = null }) => {
+  const yahooMeta = await ensurePrerequisites(settings, cancellable)
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get historical quotes: yahooMeta is invalid")
     return {}
@@ -155,7 +159,8 @@ export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimest
   const response = await fetch({
     url,
     queryParameters,
-    cookies: [yahooMeta.cookie]
+    cookies: [yahooMeta.cookie],
+    cancellable
   })
 
   if (response.ok) {
@@ -165,8 +170,8 @@ export const getHistoricalQuotes = async ({ symbol, range = '1mo', includeTimest
   }
 }
 
-export const getNewsList = async ({ symbol, settings }) => {
-  const yahooMeta = await ensurePrerequisites(settings)
+export const getNewsList = async ({ symbol, settings, cancellable = null }) => {
+  const yahooMeta = await ensurePrerequisites(settings, cancellable)
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get news list: yahooMeta is invalid")
     return {}
@@ -181,7 +186,8 @@ export const getNewsList = async ({ symbol, settings }) => {
   const response = await fetch({
     url,
     queryParameters,
-    cookies: [yahooMeta.cookie]
+    cookies: [yahooMeta.cookie],
+    cancellable
   })
 
   if (response.ok) {

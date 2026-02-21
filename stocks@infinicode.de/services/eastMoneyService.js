@@ -16,7 +16,7 @@ const API_CHART_SERIES_FIELDS = 'f51,f53,f56,f58,f86'
 
 const defaultQueryParameters = {}
 
-export const getQuoteSummary = async ({ symbol }) => {
+export const getQuoteSummary = async ({ symbol, cancellable = null }) => {
   const queryParameters = {
     ...defaultQueryParameters,
     secid: symbol,
@@ -24,7 +24,7 @@ export const getQuoteSummary = async ({ symbol }) => {
   }
 
   const url = `${API_ENDPOINT}/${API_VERSION_SUMMARY}`
-  const response = await fetch({ url, queryParameters })
+  const response = await fetch({ url, queryParameters, cancellable })
 
   const params = {
     symbol,
@@ -38,7 +38,7 @@ export const getQuoteSummary = async ({ symbol }) => {
   return createQuoteSummaryFromEastMoneyData(params)
 }
 
-export const getHistoricalQuotes = async ({ symbol, range = '1mo' }) => {
+export const getHistoricalQuotes = async ({ symbol, range = '1mo', cancellable = null }) => {
   const queryParameters = {
     ...defaultQueryParameters,
     secid: symbol,
@@ -47,9 +47,9 @@ export const getHistoricalQuotes = async ({ symbol, range = '1mo' }) => {
   }
 
   if (range === CHART_RANGES.INTRADAY) {
-    return _getIntradayQuotes({ queryParameters })
+    return _getIntradayQuotes({ queryParameters, cancellable })
   } else {
-    return _getHistoricalQuotes({ queryParameters, range })
+    return _getHistoricalQuotes({ queryParameters, range, cancellable })
   }
 }
 
@@ -58,7 +58,7 @@ export const getNewsList = async () => {
   return []
 }
 
-const _getIntradayQuotes = async ({ queryParameters }) => {
+const _getIntradayQuotes = async ({ queryParameters, cancellable = null }) => {
   const url = `${API_ENDPOINT}/${API_VERSION_INTRADAY_CHART}`
 
   queryParameters = {
@@ -66,7 +66,7 @@ const _getIntradayQuotes = async ({ queryParameters }) => {
     ndays: 1
   }
 
-  const response = await fetch({ url, queryParameters })
+  const response = await fetch({ url, queryParameters, cancellable })
 
   if (response.ok) {
     return createQuoteHistoricalFromEastMoneyData(response.json(), 'trends')
@@ -75,7 +75,7 @@ const _getIntradayQuotes = async ({ queryParameters }) => {
   }
 }
 
-const _getHistoricalQuotes = async ({ queryParameters, range }) => {
+const _getHistoricalQuotes = async ({ queryParameters, range, cancellable = null }) => {
   const url = `${API_ENDPOINT}/${API_VERSION_HISTORY_CHART}`
 
   const [startDate, endDate] = _createDateRange(range)
@@ -88,7 +88,7 @@ const _getHistoricalQuotes = async ({ queryParameters, range }) => {
     end: toLocalDateFormat(endDate, '%Y%m%d')
   }
 
-  const response = await fetch({ url, queryParameters })
+  const response = await fetch({ url, queryParameters, cancellable })
 
   if (response.ok) {
     return createQuoteHistoricalFromEastMoneyData(response.json(), 'klines')

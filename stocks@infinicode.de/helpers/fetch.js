@@ -1,3 +1,4 @@
+import Gio from 'gi://Gio'
 import Soup from 'gi://Soup'
 
 const DEFAULT_TIME_OUT_IN_SECONDS = 10
@@ -69,8 +70,8 @@ const generateQueryString = params => {
   return `?${paramKeyValues.join('&')}`
 }
 
-export const fetch = ({ url, method = 'GET', headers, queryParameters, customHttpSession, cookies = null }) => {
-  return new Promise(resolve => {
+export const fetch = ({ url, method = 'GET', headers, queryParameters, customHttpSession, cookies = null, cancellable = null }) => {
+  return new Promise((resolve, reject) => {
     url = url + generateQueryString(queryParameters)
 
     // console.log(`Fetching url: ${url}`)
@@ -90,7 +91,7 @@ export const fetch = ({ url, method = 'GET', headers, queryParameters, customHtt
 
     const httpSession = customHttpSession || new Soup.Session({ timeout: DEFAULT_TIME_OUT_IN_SECONDS })
 
-    httpSession.send_and_read_async(request_message, null, null, (source, response_message) => {
+    httpSession.send_and_read_async(request_message, null, cancellable, (source, response_message) => {
       let body = ''
 
       try {
@@ -98,6 +99,10 @@ export const fetch = ({ url, method = 'GET', headers, queryParameters, customHtt
         const decoder = new TextDecoder()
         body = decoder.decode(bytes.get_data())
       } catch (e) {
+        if (e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED)) {
+          reject(e)
+          return
+        }
         console.error(`Could not parse soup response body ${e}`)
       }
 

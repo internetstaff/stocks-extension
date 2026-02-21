@@ -1,4 +1,5 @@
 import Clutter from 'gi://Clutter'
+import Gio from 'gi://Gio'
 import GObject from 'gi://GObject'
 import Pango from 'gi://Pango'
 import St from 'gi://St'
@@ -32,7 +33,7 @@ export const MenuStockTicker = GObject.registerClass({
     this._toggleDisplayTimeout = null
     this._settingsChangedId = null
     this._showLoadingInfoTimeoutId = null
-    this._destroyed = false
+    this._cancellable = new Gio.Cancellable()
     this._quoteSummariesCache = null
     this._lastFetchTime = 0
 
@@ -92,21 +93,19 @@ export const MenuStockTicker = GObject.registerClass({
         FinanceService.getQuoteSummaryList({
           symbolsWithFallbackName: tickerEnabledItems.filter(item => item.provider === FINANCE_PROVIDER.YAHOO).map(symbolData => ({ ...symbolData, fallbackName: symbolData.name })),
           provider: FINANCE_PROVIDER.YAHOO,
-          settings: this._settings
+          settings: this._settings,
+          cancellable: this._cancellable
         }),
 
-        tickerEnabledItems.filter(item => item.provider !== FINANCE_PROVIDER.YAHOO).map(symbolData => FinanceService.getQuoteSummary({
+        Promise.all(tickerEnabledItems.filter(item => item.provider !== FINANCE_PROVIDER.YAHOO).map(symbolData => FinanceService.getQuoteSummary({
           ...symbolData,
           fallbackName: symbolData.name,
-          settings: this._settings
-        }))
+          settings: this._settings,
+          cancellable: this._cancellable
+        })))
       ])
 
       clearTimeout(this._showLoadingInfoTimeoutId)
-
-      if (this._destroyed) {
-        return
-      }
 
       this._quoteSummariesCache = [...yahooQuoteSummaries, ...otherQuoteSummaries]
     }
@@ -267,10 +266,6 @@ export const MenuStockTicker = GObject.registerClass({
   }
 
   _showInfoMessage (message) {
-    if (this._destroyed) {
-      return
-    }
-
     this.destroy_all_children()
 
     const infoMessageBin = new St.Bin({
@@ -320,7 +315,7 @@ export const MenuStockTicker = GObject.registerClass({
   }
 
   _onDestroy () {
-    this._destroyed = true
+    this._cancellable.cancel()
 
     if (this._toggleDisplayTimeout) {
       clearInterval(this._toggleDisplayTimeout)
