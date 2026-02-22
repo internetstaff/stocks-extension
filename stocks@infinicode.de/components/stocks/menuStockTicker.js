@@ -164,7 +164,7 @@ export const MenuStockTicker = GObject.registerClass({
       y_align: Clutter.ActorAlign.CENTER,
       y_expand: true,
       style_class: `ticker-stock-quote-change-label fwb ${quoteColorStyleClass}`,
-      text: `${roundOrDefault(change)}  ${roundOrDefault(changePercent)} %${isOffMarket ? '*' : ''}`
+      text: `${roundOrDefault(change)}  ${roundOrDefault(changePercent)}%${isOffMarket ? '*' : ''}`
     })
 
     stockNameLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.NONE)
@@ -215,7 +215,7 @@ export const MenuStockTicker = GObject.registerClass({
       y_align: regular ? Clutter.ActorAlign.CENTER : Clutter.ActorAlign.START,
       y_expand: true,
       style_class: `ticker-stock-quote-change-label fwb ${quoteColorStyleClass}`,
-      text: `(${roundOrDefault(change)}${currencySymbol} | ${roundOrDefault(changePercent)} %)${isOffMarket ? '*' : ''}`
+      text: `(${roundOrDefault(change)}${currencySymbol} | ${roundOrDefault(changePercent)}%)${isOffMarket ? '*' : ''}`
     })
 
     stockQuoteLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.NONE)

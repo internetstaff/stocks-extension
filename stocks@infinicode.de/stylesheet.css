@@ -52,6 +52,12 @@
 .stocks-extension .menu-stock-ticker .stock-info-box,
 .stocks-extension .menu-stock-ticker .stock-quote-box {
     font-size: 1em;
+    margin-left: 10px;
+}
+
+.stocks-extension .menu-stock-ticker .stock-info-box:first-child,
+.stocks-extension .menu-stock-ticker .stock-quote-box:first-child {
+    margin-left: 0;
 }
 
 .stocks-extension .menu-stock-ticker .ticker-stock-name-label,
