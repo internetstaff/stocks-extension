@@ -310,7 +310,9 @@ export const MenuStockTicker = GObject.registerClass({
   }
 
   _showNextStock () {
-    this._visibleStockIndex = this._visibleStockIndex + 1 >= this._getEnabledSymbols().length ? 0 : this._visibleStockIndex + 1
+    const enabled = this._getEnabledSymbols()
+    const batchCount = Math.ceil(enabled.length / this._settings.ticker_stock_amount)
+    this._visibleStockIndex = (this._visibleStockIndex + 1) % Math.max(batchCount, 1)
     this._sync().catch(e => console.error(e))
   }
 
@@ -378,14 +380,17 @@ export const MenuStockTicker = GObject.registerClass({
   }
 
   _getBatch (items, index, amount) {
-    const start = index * amount
-    const end = start + amount
+    if (isNullOrEmpty(items)) {
+      return []
+    }
 
-    const batch = items.slice(start, end)
+    const batchCount = Math.ceil(items.length / amount)
+    const normalizedIndex = ((index % batchCount) + batchCount) % batchCount
+    const start = normalizedIndex * amount
 
-    if (isNullOrEmpty(batch)) {
-      this._visibleStockIndex = 0
-      return items.slice(0, amount)
+    const batch = []
+    for (let i = 0; i < amount; i++) {
+      batch.push(items[(start + i) % items.length])
     }
 
     return batch
