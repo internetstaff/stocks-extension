@@ -64,14 +64,18 @@ const StocksMenuButton = GObject.registerClass(class StocksMenuButton extends Pa
     super._init(menuAlignment, _('Stocks'))
     this.add_style_class_name('stocks-extension')
 
+    const panelBox = new St.BoxLayout({ vertical: false })
+    this.add_child(panelBox)
+
     const iconFile = Gio.File.new_for_path(`${this._extensionObject.path}/media/stock-chart-icon.svg`)
     this._panelIcon = new St.Icon({
       gicon: new Gio.FileIcon({ file: iconFile }),
       style_class: 'system-status-icon stocks-panel-icon'
     })
-    this.add_child(this._panelIcon)
+    panelBox.add_child(this._panelIcon)
 
-    this.add_child(new MenuStockTicker(this._settings))
+    this._menuTicker = new MenuStockTicker(this._settings)
+    panelBox.add_child(this._menuTicker)
 
     this._updatePanelDisplay()
 
@@ -110,7 +114,9 @@ const StocksMenuButton = GObject.registerClass(class StocksMenuButton extends Pa
   }
 
   _updatePanelDisplay () {
-    this._panelIcon.visible = !this._hasTickerSymbols()
+    const hasTickerSymbols = this._hasTickerSymbols()
+    this._panelIcon.visible = !hasTickerSymbols
+    this._menuTicker.visible = hasTickerSymbols
   }
 
   checkPositionInPanel () {
