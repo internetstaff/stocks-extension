@@ -208,3 +208,49 @@
 .stocks-extension .stock-card .detail-item-value {
     font-size: .8em;
 }
+
+/*** two-column stock tile grid ***/
+
+.stocks-extension .stock-tile-grid {
+    padding: 4px 8px;
+}
+
+.stocks-extension .stock-grid-column {
+    padding: 0 4px;
+}
+
+.stocks-extension .stock-tile-card {
+    margin: 4px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.stocks-extension .stock-tile-arrow {
+    font-size: .9em;
+    font-weight: bold;
+}
+
+.stocks-extension .stock-tile-symbol {
+    font-size: .9em;
+    font-weight: bold;
+    color: white;
+}
+
+.stocks-extension .stock-tile-pct {
+    font-size: .82em;
+    font-weight: bold;
+}
+
+.stocks-extension .stock-tile-price {
+    font-size: .82em;
+    font-weight: normal;
+    color: white;
+    margin-top: 2px;
+}
+
+.stocks-extension .stock-tile-change {
+    font-size: .82em;
+    font-weight: bold;
+    margin-top: 2px;
+}

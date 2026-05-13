@@ -58,7 +58,8 @@ export const initTranslations = (_) => {
       TICKER_INTERVAL_LABEL: _('Stock Panel Ticker Interval in Seconds'),
       REFRESH_INTERVAL_LABEL: _('Data Refresh Interval in Minutes'),
       SHOW_TICKER_OFF_MARKET_PRICES_LABEL: _('Show off-market prices in Ticker'),
-      USE_NAMES_FROM_PROVIDER_LABEL: _('Use instrument names from provider')
+      USE_NAMES_FROM_PROVIDER_LABEL: _('Use instrument names from provider'),
+      USE_SIMPLE_OVERVIEW_LAYOUT_LABEL: _('Use simple grid layout in stock overview')
     },
     STOCKS: {
       SYMBOL: _('Symbol'),

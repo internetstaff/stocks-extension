@@ -2,7 +2,7 @@ import Adw from 'gi://Adw'
 import GObject from 'gi://GObject'
 import Gtk from 'gi://Gtk'
 
-import { SettingsHandler } from '../../helpers/settings.js'
+import { SettingsHandler, STOCKS_USE_SIMPLE_OVERVIEW_LAYOUT } from '../../helpers/settings.js'
 import { Translations } from '../../helpers/translations.js'
 
 export const SettingsPage = GObject.registerClass({
@@ -176,5 +176,23 @@ class GeneralPreferenceGroup extends Adw.PreferencesGroup {
 
     useNamesFromProviderRow.add_suffix(useNamesFromProviderSwitch)
     this.add(useNamesFromProviderRow)
+
+    const useSimpleOverviewLayoutSwitch = new Gtk.Switch({
+      valign: Gtk.Align.CENTER
+    })
+
+    const useSimpleOverviewLayoutRow = new Adw.ActionRow({
+      title: Translations.SETTINGS.USE_SIMPLE_OVERVIEW_LAYOUT_LABEL,
+      activatable_widget: useSimpleOverviewLayoutSwitch
+    })
+
+    useSimpleOverviewLayoutSwitch.set_active(this._settings.use_simple_overview_layout)
+
+    useSimpleOverviewLayoutSwitch.connect('notify::active', (widget) => {
+      this._settings.use_simple_overview_layout = widget.get_active()
+    })
+
+    useSimpleOverviewLayoutRow.add_suffix(useSimpleOverviewLayoutSwitch)
+    this.add(useSimpleOverviewLayoutRow)
   }
 }

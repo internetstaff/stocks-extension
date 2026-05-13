@@ -68,5 +68,9 @@
             <default>''</default>
             <summary>Meta Data For Yahoo Requests</summary>
         </key>
+        <key name="use-simple-overview-layout" type="b">
+            <default>false</default>
+            <summary>Use simple two-column grid layout in stock overview panel</summary>
+        </key>
     </schema>
 </schemalist>
