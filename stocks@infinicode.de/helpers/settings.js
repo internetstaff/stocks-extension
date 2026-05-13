@@ -16,6 +16,7 @@ export const STOCKS_SELECTED_PORTFOLIO = 'selected-portfolio'
 export const STOCKS_TICKER_DISPLAY_VARIATION = 'ticker-display-variation'
 export const STOCKS_USE_PROVIDER_INSTRUMENT_NAMES = 'use-provider-instrument-names'
 export const STOCKS_YAHOO_META = 'yahoo-meta'
+export const STOCKS_USE_SIMPLE_OVERVIEW_LAYOUT = 'use-simple-overview-layout'
 
 export const DEFAULT_SYMBOL_DATA = [
   {
@@ -145,6 +146,14 @@ export const SettingsHandler = class SettingsHandler {
 
   set use_provider_instrument_names (value) {
     return this._settings.set_boolean(STOCKS_USE_PROVIDER_INSTRUMENT_NAMES, value)
+  }
+
+  get use_simple_overview_layout () {
+    return this._settings.get_boolean(STOCKS_USE_SIMPLE_OVERVIEW_LAYOUT)
+  }
+
+  set use_simple_overview_layout (value) {
+    return this._settings.set_boolean(STOCKS_USE_SIMPLE_OVERVIEW_LAYOUT, value)
   }
 
   get selected_portfolio () {

@@ -2,7 +2,7 @@ import GObject from 'gi://GObject'
 import St from 'gi://St'
 import { isNullOrEmpty, removeCache } from '../../../helpers/data.js'
 
-import { SettingsHandler, STOCKS_PORTFOLIOS, STOCKS_SELECTED_PORTFOLIO, STOCKS_SYMBOL_PAIRS, STOCKS_USE_PROVIDER_INSTRUMENT_NAMES } from '../../../helpers/settings.js'
+import { SettingsHandler, STOCKS_PORTFOLIOS, STOCKS_SELECTED_PORTFOLIO, STOCKS_SYMBOL_PAIRS, STOCKS_USE_PROVIDER_INSTRUMENT_NAMES, STOCKS_USE_SIMPLE_OVERVIEW_LAYOUT } from '../../../helpers/settings.js'
 
 import { Translations } from '../../../helpers/translations.js'
 
@@ -10,6 +10,7 @@ import * as FinanceService from '../../../services/financeService.js'
 import { FINANCE_PROVIDER } from '../../../services/meta/generic.js'
 import { ButtonGroup } from '../../buttons/buttonGroup.js'
 import { StockCard } from '../../cards/stockCard.js'
+import { StockTileCard } from '../../cards/stockTileCard.js'
 import { FlatList } from '../../flatList/flatList.js'
 import { SearchBar } from '../../searchBar/searchBar.js'
 
@@ -17,7 +18,8 @@ const SETTING_KEYS_TO_REFRESH = [
   STOCKS_SYMBOL_PAIRS,
   STOCKS_SELECTED_PORTFOLIO,
   STOCKS_PORTFOLIOS,
-  STOCKS_USE_PROVIDER_INSTRUMENT_NAMES
+  STOCKS_USE_PROVIDER_INSTRUMENT_NAMES,
+  STOCKS_USE_SIMPLE_OVERVIEW_LAYOUT
 ]
 
 export const StockOverviewScreen = GObject.registerClass({
@@ -43,9 +45,39 @@ export const StockOverviewScreen = GObject.registerClass({
     this._portfolioGroup = new ButtonGroup({ buttons: [], y_expand: false })
     this._list = new FlatList({ id: 'stock_overview', persistScrollPosition: false })
 
+    this._tileCards = []
+    this._gridScrollView = new St.ScrollView({
+      style_class: 'scroll-box',
+      overlay_scrollbars: true,
+      x_expand: true,
+      y_expand: true,
+      clip_to_allocation: true,
+      hscrollbar_policy: St.PolicyType.NEVER,
+      vscrollbar_policy: St.PolicyType.AUTOMATIC
+    })
+    this._gridContainer = new St.BoxLayout({
+      style_class: 'stock-tile-grid',
+      x_expand: true,
+      y_expand: true
+    })
+    this._leftColumn = new St.BoxLayout({
+      style_class: 'stock-grid-column',
+      vertical: true,
+      x_expand: true
+    })
+    this._rightColumn = new St.BoxLayout({
+      style_class: 'stock-grid-column',
+      vertical: true,
+      x_expand: true
+    })
+    this._gridContainer.add_child(this._leftColumn)
+    this._gridContainer.add_child(this._rightColumn)
+    this._gridScrollView.add_child(this._gridContainer)
+
     this.add_child(this._searchBar)
     this.add_child(this._portfolioGroup)
     this.add_child(this._list)
+    this.add_child(this._gridScrollView)
 
     this.connect('destroy', this._onDestroy.bind(this))
 
@@ -80,20 +112,27 @@ export const StockOverviewScreen = GObject.registerClass({
   }
 
   _filter_results (searchText) {
-    const listItems = this._list.items
-
-    listItems.forEach(item => {
-      const data = item.cardItem
-
-      if (!searchText) {
-        item.visible = true
-        return
-      }
-
-      const searchContent = `${data.FullName} ${data.ExchangeName} ${data.Symbol}`.toUpperCase()
-
-      item.visible = searchContent.includes(searchText.toUpperCase())
-    })
+    if (this._settings.use_simple_overview_layout) {
+      this._tileCards.forEach(tile => {
+        if (!searchText) {
+          tile.visible = true
+          return
+        }
+        const data = tile.cardItem
+        const searchContent = `${data.FullName} ${data.ExchangeName} ${data.Symbol}`.toUpperCase()
+        tile.visible = searchContent.includes(searchText.toUpperCase())
+      })
+    } else {
+      this._list.items.forEach(item => {
+        const data = item.cardItem
+        if (!searchText) {
+          item.visible = true
+          return
+        }
+        const searchContent = `${data.FullName} ${data.ExchangeName} ${data.Symbol}`.toUpperCase()
+        item.visible = searchContent.includes(searchText.toUpperCase())
+      })
+    }
   }
 
   async _createPortfolioButtonGroup () {
@@ -140,13 +179,19 @@ export const StockOverviewScreen = GObject.registerClass({
     const symbols = selectedOrFirstPortfolio.symbols
 
     if (isNullOrEmpty(symbols)) {
+      this._list.visible = true
+      this._gridScrollView.visible = false
       this._list.show_error_info(Translations.NO_SYMBOLS_CONFIGURED_ERROR)
       return
     }
 
     this._isRendering = true
 
-    this._showLoadingInfoTimeoutId = setTimeout(() => this._list.show_loading_info(), 500)
+    this._showLoadingInfoTimeoutId = setTimeout(() => {
+      this._list.visible = true
+      this._gridScrollView.visible = false
+      this._list.show_loading_info()
+    }, 500)
 
     const [yahooQuoteSummaries, otherQuoteSummaries] = await Promise.all([
       FinanceService.getQuoteSummaryList({
@@ -164,10 +209,19 @@ export const StockOverviewScreen = GObject.registerClass({
 
     this._showLoadingInfoTimeoutId = clearTimeout(this._showLoadingInfoTimeoutId)
 
+    const simpleLayout = this._settings.use_simple_overview_layout
+
     this._list.clear_list_items()
+    this._tileCards = []
+    this._leftColumn.destroy_all_children()
+    this._rightColumn.destroy_all_children()
+
+    this._list.visible = !simpleLayout
+    this._gridScrollView.visible = simpleLayout
 
     const wildMixOfQuoteSummaries = [...yahooQuoteSummaries, ...otherQuoteSummaries]
 
+    let tileIndex = 0
     symbols.forEach(symbolData => {
       const { symbol, provider } = symbolData
 
@@ -177,7 +231,25 @@ export const StockOverviewScreen = GObject.registerClass({
         return
       }
 
-      this._list.addItem(new StockCard(quoteSummary, this._settings.selected_portfolio, this._settings))
+      if (simpleLayout) {
+        const tile = new StockTileCard(quoteSummary, this._settings)
+        tile.connect('clicked', () => this._mainEventHandler.emit('show-screen', {
+          screen: 'stock-details',
+          additionalData: {
+            portfolioId: this._settings.selected_portfolio,
+            item: tile.cardItem
+          }
+        }))
+        this._tileCards.push(tile)
+        if (tileIndex % 2 === 0) {
+          this._leftColumn.add_child(tile)
+        } else {
+          this._rightColumn.add_child(tile)
+        }
+        tileIndex++
+      } else {
+        this._list.addItem(new StockCard(quoteSummary, this._settings.selected_portfolio, this._settings))
+      }
     })
 
     this._filter_results(this._searchBar.search_text())
