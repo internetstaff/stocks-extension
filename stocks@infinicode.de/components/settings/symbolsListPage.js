@@ -33,7 +33,7 @@ class SymbolListPreferenceGroup extends Adw.PreferencesGroup {
 
     this.install_action('symbol.add', null, self => self._symbolModelList.append())
     this.install_action('symbol.remove', 's', (self, name, param) => self._symbolModelList.remove(param.unpack()))
-    this.install_action('symbol.edit', '(ss)', (self, name, param) => {
+    this.install_action('symbol.edit', '(sssbs)', (self, name, param) => {
       const data = param.deepUnpack()
 
       self._symbolModelList.edit(...data)
