@@ -117,6 +117,12 @@ const StocksMenuButton = GObject.registerClass(class StocksMenuButton extends Pa
     const hasTickerSymbols = this._hasTickerSymbols()
     this._panelIcon.visible = !hasTickerSymbols
     this._menuTicker.visible = hasTickerSymbols
+
+    if (hasTickerSymbols) {
+      this.remove_style_class_name('stocks-icon-mode')
+    } else {
+      this.add_style_class_name('stocks-icon-mode')
+    }
   }
 
   checkPositionInPanel () {
