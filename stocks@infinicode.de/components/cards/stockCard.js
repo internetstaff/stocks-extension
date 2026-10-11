@@ -22,7 +22,7 @@ export const StockCard = GObject.registerClass({
     const transactionResult = TransactionService.loadCalculatedTransactionsForSymbol({ portfolioId, quoteSummary, settings })
 
     const vContentBox = new St.BoxLayout({
-      vertical: true,
+      orientation: Clutter.Orientation.VERTICAL,
       x_expand: true
     })
     this.set_child(vContentBox)
@@ -60,7 +60,7 @@ export const StockCard = GObject.registerClass({
     const stockInformationBox = new St.BoxLayout({
       style_class: 'stock-information-box',
       x_expand: true,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     const quoteLabel = new St.Label({
@@ -88,7 +88,7 @@ export const StockCard = GObject.registerClass({
   _createQuoteInfo () {
     const quoteInformationBox = new St.BoxLayout({
       style_class: 'quote-information-box',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     const quoteInformationPriceBox = new St.BoxLayout({
@@ -277,7 +277,7 @@ export const StockCard = GObject.registerClass({
       style_class: 'stock-left-details-box',
       x_expand: true,
       y_expand: false,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     leftDetailBox.add_child(this._createDetailItem(
@@ -293,7 +293,7 @@ export const StockCard = GObject.registerClass({
       style_class: 'stock-details-box',
       x_expand: true,
       y_expand: false,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     rightDetailBox.add_child(this._createDetailItem(

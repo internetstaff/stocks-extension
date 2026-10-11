@@ -14,7 +14,7 @@ export const StockDetails = GObject.registerClass({
       style_class: 'stock-details',
       x_expand: true,
       y_expand: true,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     this._sync({ quoteSummary })
@@ -133,7 +133,7 @@ export const StockDetails = GObject.registerClass({
       style_class: 'stock-left-details-box',
       x_expand: true,
       y_expand: false,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     leftDetailBox.add_child(this._createDetailItem(
@@ -183,7 +183,7 @@ export const StockDetails = GObject.registerClass({
       style_class: 'stock-details-box',
       x_expand: true,
       y_expand: false,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     rightDetailBox.add_child(this._createDetailItem(

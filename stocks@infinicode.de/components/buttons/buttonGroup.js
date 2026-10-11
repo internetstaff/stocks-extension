@@ -38,7 +38,7 @@ export const ButtonGroup = GObject.registerClass({
     })
 
     const innerContentBox = new St.BoxLayout({
-      vertical: true,
+      orientation: Clutter.Orientation.VERTICAL,
       x_align: Clutter.ActorAlign.CENTER,
       y_align: Clutter.ActorAlign.CENTER,
       y_expand,

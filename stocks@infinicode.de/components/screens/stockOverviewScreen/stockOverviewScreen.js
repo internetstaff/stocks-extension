@@ -1,3 +1,4 @@
+import Clutter from 'gi://Clutter'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
 import { isNullOrEmpty, removeCache } from '../../../helpers/data.js'
@@ -26,7 +27,7 @@ export const StockOverviewScreen = GObject.registerClass({
   _init ({ mainEventHandler, settings, extensionObject }) {
     super._init({
       style_class: 'screen stock-overview-screen',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     this._mainEventHandler = mainEventHandler

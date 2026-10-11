@@ -14,7 +14,7 @@ export const EditTransactionScreen = GObject.registerClass({
   _init ({ portfolioId, quoteSummary, transaction, mainEventHandler, settings }) {
     super._init({
       style_class: 'screen edit-screen edit-transaction-screen',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     this._mainEventHandler = mainEventHandler
@@ -137,7 +137,7 @@ export const EditTransactionScreen = GObject.registerClass({
   _createFormElement ({ text, placeholder, dataField, customFormElement }) {
     const formElementbox = new St.BoxLayout({
       style_class: 'form-element-box',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     const label = new St.Label({

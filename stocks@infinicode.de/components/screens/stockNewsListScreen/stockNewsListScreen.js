@@ -1,3 +1,4 @@
+import Clutter from 'gi://Clutter'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
 import Gio from 'gi://Gio'
@@ -17,7 +18,7 @@ export const StockNewsListScreen = GObject.registerClass({
   _init ({ quoteSummary, portfolioId, mainEventHandler, settings }) {
     super._init({
       style_class: 'screen stock-details-screen',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     this._mainEventHandler = mainEventHandler

@@ -141,7 +141,7 @@ export const MenuStockTicker = GObject.registerClass({
 
     const stockInfoBox = new St.BoxLayout({
       style_class: 'stock-info-box compact',
-      vertical: false,
+      orientation: Clutter.Orientation.HORIZONTAL,
       y_align: Clutter.ActorAlign.CENTER,
       y_expand: true
     })
@@ -186,7 +186,7 @@ export const MenuStockTicker = GObject.registerClass({
 
     const stockInfoBox = new St.BoxLayout({
       style_class: `stock-info-box ${regular ? 'regular' : 'tremendous'}`,
-      vertical: !regular,
+      orientation: regular ? Clutter.Orientation.HORIZONTAL : Clutter.Orientation.VERTICAL,
       y_align: regular ? Clutter.ActorAlign.CENTER : Clutter.ActorAlign.START
     })
 
@@ -237,7 +237,7 @@ export const MenuStockTicker = GObject.registerClass({
 
     const stockInfoBox = new St.BoxLayout({
       style_class: 'stock-info-box compact',
-      vertical: false,
+      orientation: Clutter.Orientation.HORIZONTAL,
       y_align: Clutter.ActorAlign.CENTER,
       y_expand: true
     })
