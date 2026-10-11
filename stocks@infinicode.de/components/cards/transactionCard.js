@@ -26,7 +26,7 @@ export const TransactionCard = GObject.registerClass({
     this._settings = settings
 
     const vContentBox = new St.BoxLayout({
-      vertical: true,
+      orientation: Clutter.Orientation.VERTICAL,
       x_expand: true
     })
     this.set_child(vContentBox)
@@ -66,7 +66,7 @@ export const TransactionCard = GObject.registerClass({
       x_expand: true,
       y_expand: true,
       y_align: Clutter.ActorAlign.CENTER,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     const quoteLabel = new St.Label({
@@ -137,7 +137,7 @@ export const TransactionCard = GObject.registerClass({
       style_class: 'stock-left-details-box',
       x_expand: true,
       y_expand: false,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     leftDetailBox.add_child(this._createDetailItem(
@@ -163,7 +163,7 @@ export const TransactionCard = GObject.registerClass({
       style_class: 'stock-details-box',
       x_expand: true,
       y_expand: false,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     rightDetailBox.add_child(this._createDetailItem(

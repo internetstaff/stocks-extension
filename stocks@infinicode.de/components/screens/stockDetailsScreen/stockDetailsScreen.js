@@ -19,7 +19,7 @@ export const StockDetailsScreen = GObject.registerClass({
   _init ({ portfolioId, quoteSummary, mainEventHandler, settings }) {
     super._init({
       style_class: 'screen stock-details-screen',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     this._mainEventHandler = mainEventHandler

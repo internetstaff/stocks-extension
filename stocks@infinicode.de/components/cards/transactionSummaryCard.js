@@ -20,7 +20,7 @@ export const TransactionSummaryCard = GObject.registerClass({
     this._transaction = transactionResult
 
     const vContentBox = new St.BoxLayout({
-      vertical: true,
+      orientation: Clutter.Orientation.VERTICAL,
       x_expand: true
     })
     this.set_child(vContentBox)
@@ -55,7 +55,7 @@ export const TransactionSummaryCard = GObject.registerClass({
     const stockInformationBox = new St.BoxLayout({
       style_class: 'stock-information-box',
       x_expand: true,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     const quoteLabel = new St.Label({
@@ -71,7 +71,7 @@ export const TransactionSummaryCard = GObject.registerClass({
   _createQuoteInfo () {
     const quoteInformationBox = new St.BoxLayout({
       style_class: 'quote-information-box',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     const quoteInformationPriceBox = this._createRegularAdditionalInformationBox()
@@ -149,7 +149,7 @@ export const TransactionSummaryCard = GObject.registerClass({
       style_class: 'stock-left-details-box',
       x_expand: true,
       y_expand: false,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     leftDetailBox.add_child(this._createDetailItem(
@@ -175,7 +175,7 @@ export const TransactionSummaryCard = GObject.registerClass({
       style_class: 'stock-details-box',
       x_expand: true,
       y_expand: false,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     rightDetailBox.add_child(this._createDetailItem(

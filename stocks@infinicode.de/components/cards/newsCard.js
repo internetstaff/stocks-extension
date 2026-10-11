@@ -1,3 +1,4 @@
+import Clutter from 'gi://Clutter'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
 import Pango from 'gi://Pango'
@@ -19,7 +20,7 @@ export const NewsCard = GObject.registerClass({
     this._fgColor = fgColor
 
     const vContentBox = new St.BoxLayout({
-      vertical: true,
+      orientation: Clutter.Orientation.VERTICAL,
       x_expand: true
     })
     this.set_child(vContentBox)
@@ -36,7 +37,7 @@ export const NewsCard = GObject.registerClass({
     const newsContentBox = new St.BoxLayout({
       style_class: 'news-content-box',
       x_expand: true,
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     const newsTitleLabel = new St.Label({
