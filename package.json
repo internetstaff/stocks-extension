@@ -1,0 +1,14 @@
+{
+  "name": "gnome-shell-extension-stocks",
+  "private": true,
+  "type": "module",
+  "description": "Development tooling only; not shipped with the extension.",
+  "scripts": {
+    "lint": "eslint stocks@infinicode.de",
+    "lint:fix": "eslint --fix stocks@infinicode.de"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0"
+  }
+}

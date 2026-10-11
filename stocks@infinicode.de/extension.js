@@ -56,7 +56,7 @@ const StocksMenuButton = GObject.registerClass(class StocksMenuButton extends Pa
     // Panel menu item - the current class
     let menuAlignment = 0.25
 
-    if (Clutter.get_default_text_direction() == Clutter.TextDirection.RTL) {
+    if (Clutter.get_default_text_direction() === Clutter.TextDirection.RTL) {
       menuAlignment = 1.0 - menuAlignment
     }
 

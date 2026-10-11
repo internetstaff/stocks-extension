@@ -19,7 +19,7 @@ export const SubPage = GObject.registerClass(
           decoration_layout: ''
         })
         this.append(this.headerBar)
-        let backButton = new Gtk.Button({
+        const backButton = new Gtk.Button({
           icon_name: 'go-previous-symbolic',
           tooltip_text: Translations.BACK,
           css_classes: ['flat'],

@@ -20,22 +20,22 @@ export const AboutPage = GObject.registerClass({
         })
 
         //Logo and project description-------------------------------------
-        let headerPreferencesGroup = new Adw.PreferencesGroup()
+        const headerPreferencesGroup = new Adw.PreferencesGroup()
 
-        let extensionHeaderBox = new Gtk.Box({
+        const extensionHeaderBox = new Gtk.Box({
           orientation: Gtk.Orientation.VERTICAL,
           hexpand: false,
           vexpand: false
         })
 
-        let extensionTaskbarLabel = new Gtk.Label({
+        const extensionTaskbarLabel = new Gtk.Label({
           label: `<span size="larger"><b>${Translations.EXTENSION.NAME}</b></span>`,
           use_markup: true,
           vexpand: true,
           valign: Gtk.Align.FILL
         })
 
-        let projectDescriptionLabel = new Gtk.Label({
+        const projectDescriptionLabel = new Gtk.Label({
           label: Translations.EXTENSION.DESCRIPTION,
           hexpand: false,
           vexpand: false,
@@ -48,8 +48,8 @@ export const AboutPage = GObject.registerClass({
         //-----------------------------------------------------------------------
 
         //Extension/OS Info Group------------------------------------------------
-        let extensionInfoGroup = new Adw.PreferencesGroup()
-        let extensionTaskbarVersionRow = new Adw.ActionRow({
+        const extensionInfoGroup = new Adw.PreferencesGroup()
+        const extensionTaskbarVersionRow = new Adw.ActionRow({
           title: Translations.MISC.EXTENSION_VERSION,
         })
         let releaseVersion
@@ -63,7 +63,7 @@ export const AboutPage = GObject.registerClass({
         }))
         extensionInfoGroup.add(extensionTaskbarVersionRow)
 
-        let commitRow = new Adw.ActionRow({
+        const commitRow = new Adw.ActionRow({
           title: Translations.MISC.GIT_COMMIT
         })
         let commitVersion
@@ -77,7 +77,7 @@ export const AboutPage = GObject.registerClass({
           extensionInfoGroup.add(commitRow)
         }
 
-        let gnomeVersionRow = new Adw.ActionRow({
+        const gnomeVersionRow = new Adw.ActionRow({
           title: Translations.MISC.GNOME_VERSION,
         })
         gnomeVersionRow.add_suffix(new Gtk.Label({
@@ -85,22 +85,22 @@ export const AboutPage = GObject.registerClass({
         }))
         extensionInfoGroup.add(gnomeVersionRow)
 
-        let osRow = new Adw.ActionRow({
+        const osRow = new Adw.ActionRow({
           title: Translations.MISC.OS,
         })
         let osInfoText
-        let name = GLib.get_os_info('NAME')
-        let prettyName = GLib.get_os_info('PRETTY_NAME')
+        const name = GLib.get_os_info('NAME')
+        const prettyName = GLib.get_os_info('PRETTY_NAME')
         if (prettyName) {
           osInfoText = prettyName
         } else {
           osInfoText = name
         }
-        let versionID = GLib.get_os_info('VERSION_ID')
+        const versionID = GLib.get_os_info('VERSION_ID')
         if (versionID) {
           osInfoText += '; Version ID: ' + versionID
         }
-        let buildID = GLib.get_os_info('BUILD_ID')
+        const buildID = GLib.get_os_info('BUILD_ID')
         if (buildID) {
           osInfoText += '; ' + 'Build ID: ' + buildID
         }
@@ -111,11 +111,11 @@ export const AboutPage = GObject.registerClass({
         }))
         extensionInfoGroup.add(osRow)
 
-        let sessionTypeRow = new Adw.ActionRow({
+        const sessionTypeRow = new Adw.ActionRow({
           title: Translations.MISC.SESSION_TYPE,
         })
 
-        let windowingLabel = GLib.getenv("XDG_SESSION_TYPE");
+        const windowingLabel = GLib.getenv("XDG_SESSION_TYPE");
 
         sessionTypeRow.add_suffix(new Gtk.Label({
           label: windowingLabel,
@@ -125,13 +125,13 @@ export const AboutPage = GObject.registerClass({
         this.add(extensionInfoGroup)
         //-----------------------------------------------------------------------
 
-        let gnuSoftwareGroup = new Adw.PreferencesGroup()
-        let gnuSofwareLabel = new Gtk.Label({
+        const gnuSoftwareGroup = new Adw.PreferencesGroup()
+        const gnuSofwareLabel = new Gtk.Label({
           label: GNU_SOFTWARE,
           use_markup: true,
           justify: Gtk.Justification.CENTER
         })
-        let gnuSofwareLabelBox = new Gtk.Box({
+        const gnuSofwareLabelBox = new Gtk.Box({
           orientation: Gtk.Orientation.VERTICAL,
           valign: Gtk.Align.END,
           vexpand: true,

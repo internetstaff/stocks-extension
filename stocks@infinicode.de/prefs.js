@@ -13,7 +13,7 @@ export default class StocksExtensionPreferences extends ExtensionPreferences {
   fillPreferencesWindow (window) {
     initTranslations(_)
 
-    let iconTheme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
+    const iconTheme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
     if (!iconTheme.get_search_path().includes(this.path + '/media')) {
       iconTheme.add_search_path(this.path + '/media')
     }

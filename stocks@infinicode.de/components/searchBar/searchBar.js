@@ -2,7 +2,6 @@ import Clutter from 'gi://Clutter'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
 
-import { SettingsHandler } from '../../helpers/settings.js'
 import { IconButton } from '../buttons/iconButton.js'
 import { Translations } from '../../helpers/translations.js'
 

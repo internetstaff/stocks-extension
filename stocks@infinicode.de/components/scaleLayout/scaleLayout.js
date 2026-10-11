@@ -15,7 +15,7 @@ export const ScaleLayout = GObject.registerClass({
         }
 
         if (this._container) {
-          for (let id of this._signals)
+          for (const id of this._signals)
             this._container.disconnect(id)
         }
 
@@ -23,8 +23,8 @@ export const ScaleLayout = GObject.registerClass({
         this._signals = []
 
         if (this._container) {
-          for (let signal of ['notify::scale-x', 'notify::scale-y']) {
-            let id = this._container.connect(signal, () => {
+          for (const signal of ['notify::scale-x', 'notify::scale-y']) {
+            const id = this._container.connect(signal, () => {
               this.layout_changed()
             })
             this._signals.push(id)
@@ -35,7 +35,7 @@ export const ScaleLayout = GObject.registerClass({
       vfunc_get_preferred_width (container, forHeight) {
         this._connectContainer(container)
 
-        let [min, nat] = super.vfunc_get_preferred_width(container, forHeight)
+        const [min, nat] = super.vfunc_get_preferred_width(container, forHeight)
         return [
           Math.floor(min * container.scale_x),
           Math.floor(nat * container.scale_x)]
@@ -44,7 +44,7 @@ export const ScaleLayout = GObject.registerClass({
       vfunc_get_preferred_height (container, forWidth) {
         this._connectContainer(container)
 
-        let [min, nat] = super.vfunc_get_preferred_height(container, forWidth)
+        const [min, nat] = super.vfunc_get_preferred_height(container, forWidth)
         return [
           Math.floor(min * container.scale_y),
           Math.floor(nat * container.scale_y)]

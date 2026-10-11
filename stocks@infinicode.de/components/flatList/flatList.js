@@ -4,7 +4,7 @@ import St from 'gi://St'
 import Graphene from 'gi://Graphene'
 
 import { ScaleLayout } from '../scaleLayout/scaleLayout.js'
-import { cacheOrDefault, removeCache } from '../../helpers/data.js'
+import { cacheOrDefault } from '../../helpers/data.js'
 import { Translations } from '../../helpers/translations.js'
 
 export const MESSAGE_ANIMATION_TIME = 100

@@ -16,7 +16,6 @@ import * as FinanceService from '../../../services/financeService.js'
 import * as TransactionService from '../../../services/transactionService.js'
 
 import {
-  SettingsHandler,
   STOCKS_PORTFOLIOS,
   STOCKS_SYMBOL_PAIRS,
   STOCKS_TRANSACTIONS

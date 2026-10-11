@@ -1,5 +1,6 @@
 import Gio from 'gi://Gio'
 
+import { Translations } from '../helpers/translations.js'
 import { TRANSACTION_TYPES } from './meta/generic.js'
 
 export const loadCalculatedTransactionsForSymbol = ({ portfolioId, quoteSummary, settings }) => {

@@ -2,3 +2,5 @@ _build
 .idea
 /stocks@infinicode.de/schemas/gschemas.compiled
 /stocks@infinicode.de/locale
+node_modules
+*.swp
