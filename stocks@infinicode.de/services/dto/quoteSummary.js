@@ -1,6 +1,4 @@
-import { isNullOrUndefined, moveDecimal } from '../../helpers/data.js'
-import { Translations } from '../../helpers/translations.js'
-import { MARKETS } from '../meta/eastMoney.js'
+import { isNullOrUndefined } from '../../helpers/data.js'
 import { FINANCE_PROVIDER, MARKET_STATES } from '../meta/generic.js'
 
 export const QuoteSummary = class QuoteSummary {
@@ -35,40 +33,6 @@ export const QuoteSummary = class QuoteSummary {
 
     this.Error = error
   }
-}
-
-export const createQuoteSummaryFromEastMoneyData = ({ symbol, quoteData, error }) => {
-  const newObject = new QuoteSummary(symbol, FINANCE_PROVIDER.EAST_MONEY)
-  newObject.Error = error
-
-  const data = (quoteData || {}).data
-
-  if (data) {
-    const decimalPlace = data.f59
-
-    newObject.FullName = data.f58
-    if (data.f86) {
-      newObject.Timestamp = data.f86 * 1000
-    }
-
-    newObject.ChangePercent = moveDecimal(data.f170, decimalPlace)
-    newObject.Change = moveDecimal(data.f169, decimalPlace)
-
-    newObject.PreviousClose = moveDecimal(data.f60, decimalPlace)
-    newObject.Close = moveDecimal(data.f43, decimalPlace)
-    newObject.Open = moveDecimal(data.f46, decimalPlace)
-    newObject.Low = moveDecimal(data.f45, decimalPlace)
-    newObject.High = moveDecimal(data.f44, decimalPlace)
-
-    newObject.Volume = data.f47
-    // newObject.CurrencySymbol = data.f111 !== 2 ? '元' : null // 2 are shares, 0,5,1 are markets or indices
-    newObject.CurrencySymbol = '元' // don't really know let's assume it's always renminbi, f111 seems not to be the instrument type
-    newObject.ExchangeName = MARKETS[data.f107] || Translations.UNKNOWN
-
-    newObject.MarketState = MARKET_STATES.REGULAR
-  }
-
-  return newObject
 }
 
 export const createQuoteSummaryFromYahooQuoteListData = ({ symbolsWithFallbackName, quoteListData, error }) => {

@@ -1,14 +1,15 @@
 import { cacheOrDefault } from '../helpers/data.js'
+import { Translations } from '../helpers/translations.js'
 
 import { FINANCE_PROVIDER } from './meta/generic.js'
 import { QuoteSummary } from './dto/quoteSummary.js'
+import { QuoteHistorical } from './dto/quoteHistorical.js'
+import { NewsList } from './dto/newsList.js'
 
 import * as yahooService from '../services/yahooService.js'
-import * as eastMoneyService from '../services/eastMoneyService.js'
 
 const services = {
-  [FINANCE_PROVIDER.YAHOO]: yahooService,
-  [FINANCE_PROVIDER.EAST_MONEY]: eastMoneyService
+  [FINANCE_PROVIDER.YAHOO]: yahooService
 }
 
 export const getQuoteSummaryList = async ({ symbolsWithFallbackName, provider, settings = null, cancellable = null }) => {
@@ -17,7 +18,7 @@ export const getQuoteSummaryList = async ({ symbolsWithFallbackName, provider, s
     const service = services[provider]
 
     if (!service) {
-      return symbolsWithFallbackName.map(({ symbol, fallbackName }) => new QuoteSummary(symbol, provider, fallbackName, 'Invalid Provider'))
+      return symbolsWithFallbackName.map(({ symbol, fallbackName }) => new QuoteSummary(symbol, provider, fallbackName, Translations.INVALID_PROVIDER))
     }
 
     let resultList = []
@@ -40,7 +41,7 @@ export const getQuoteSummary = async ({ symbol, provider, fallbackName, settings
     const service = services[provider]
 
     if (!service) {
-      return new QuoteSummary(symbol, provider, fallbackName, 'Invalid Provider')
+      return new QuoteSummary(symbol, provider, fallbackName, Translations.INVALID_PROVIDER)
     }
 
     let summary = {}
@@ -68,6 +69,10 @@ export const getHistoricalQuotes = async ({ symbol, provider, range = '1y', incl
     if (symbol && service) {
       return service.getHistoricalQuotes({ symbol, range, includeTimestamps, settings, cancellable })
     }
+
+    const empty = new QuoteHistorical()
+    empty.Error = service ? null : Translations.INVALID_PROVIDER
+    return empty
   })
 }
 
@@ -78,5 +83,9 @@ export const getNewsList = async ({ symbol, provider, settings = null, cancellab
     if (symbol && service) {
       return service.getNewsList({ symbol, settings, cancellable })
     }
+
+    const empty = new NewsList()
+    empty.Error = service ? null : Translations.INVALID_PROVIDER
+    return empty
   }, 15 * 60 * 1000)
 }

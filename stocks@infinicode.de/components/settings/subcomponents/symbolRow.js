@@ -115,7 +115,7 @@ export const SymbolRow = GObject.registerClass({
     editRowBox.initForm = item => {
       editRowBox._nameEntry.text = item.name || ''
       editRowBox._symbolEntry.text = item.symbol || ''
-      editRowBox._providerDropDown.selected = Object.values(FINANCE_PROVIDER).indexOf(item.provider) || 0
+      editRowBox._providerDropDown.selected = Math.max(Object.values(FINANCE_PROVIDER).indexOf(item.provider), 0)
       editRowBox._showInTickerCheckButton.active = Boolean(item.showInTicker)
     }
 
@@ -131,10 +131,10 @@ export const SymbolRow = GObject.registerClass({
 
     const providerList = new Gtk.StringList()
     providerList.append(Translations.PROVIDERS.YAHOO)
-    providerList.append(Translations.PROVIDERS.EAST_MONEY)
 
     editRowBox._providerDropDown = new Gtk.DropDown({
-      model: providerList
+      model: providerList,
+      visible: providerList.get_n_items() > 1
     })
 
     editRowBox._showInTickerCheckButton = new Gtk.CheckButton({

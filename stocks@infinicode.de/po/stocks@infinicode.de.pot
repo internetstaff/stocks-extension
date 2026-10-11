@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-stocks\n"
 "Report-Msgid-Bugs-To: fh@infinicode.de\n"
-"POT-Creation-Date: 2023-06-03 22:41+0200\n"
+"POT-Creation-Date: 2026-10-11 10:50-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: stocks@infinicode.de/extension.js:66
+#: stocks@infinicode.de/extension.js:63
 msgid "Stocks"
 msgstr ""
 
@@ -53,248 +53,327 @@ msgstr ""
 msgid "UNKNOWN"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:16
-msgid "Yahoo"
+#: stocks@infinicode.de/helpers/translations.js:15
+msgid "Invalid Provider"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:17
-msgid "EastMoney"
+msgid "Yahoo"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:20
-msgid "Add Symbol"
+msgid "Price could not be parsed"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:21
-msgid "Add Portfolio"
+msgid "Amount must be a whole number"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:22
-msgid "Portfolio Name"
+msgid "Date could not be parsed"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:23
+msgid "Transaction Type"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:24
+msgid "No transactions, use the + Icon in the Search Bar to add transactions."
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:25
+#, javascript-format
+msgid ""
+"%d of this transactions could not be assigned, check if your transactions "
+"are correct"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:28
+msgid "Add Symbol"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:29
+msgid "Add Portfolio"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:30
+msgid "Portfolio Name"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:31
 #, javascript-format
 msgid "Changeme %d"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:24
+#: stocks@infinicode.de/helpers/translations.js:32
 #, javascript-format
 msgid "List %d"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:25
+#: stocks@infinicode.de/helpers/translations.js:33
 msgid "Name"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:26
-#: stocks@infinicode.de/helpers/translations.js:55
+#: stocks@infinicode.de/helpers/translations.js:34
+#: stocks@infinicode.de/helpers/translations.js:64
 msgid "Symbol"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:27
+#: stocks@infinicode.de/helpers/translations.js:35
 msgid "In Ticker?"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:28
+#: stocks@infinicode.de/helpers/translations.js:36
 msgid " - in Ticker"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:29
+#: stocks@infinicode.de/helpers/translations.js:37
 msgid "Provider"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:30
+#: stocks@infinicode.de/helpers/translations.js:38
 #, javascript-format
 msgid "Remove %s?"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:31
+#: stocks@infinicode.de/helpers/translations.js:39
 msgid "General"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:32
+#: stocks@infinicode.de/helpers/translations.js:40
 msgid "Settings"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:33
+#: stocks@infinicode.de/helpers/translations.js:41
 msgid "About"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:34
+#: stocks@infinicode.de/helpers/translations.js:42
 msgid "Symbols"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:35
+#: stocks@infinicode.de/helpers/translations.js:43
 msgid "Symbol List"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:36
+#: stocks@infinicode.de/helpers/translations.js:44
 msgid "Portfolios"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:37
+#: stocks@infinicode.de/helpers/translations.js:45
 msgid "Portfolio List"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:38
+#: stocks@infinicode.de/helpers/translations.js:46
 msgid "Position in Panel"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:39
+#: stocks@infinicode.de/helpers/translations.js:47
 msgid "Left"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:40
+#: stocks@infinicode.de/helpers/translations.js:48
 msgid "Center"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:41
+#: stocks@infinicode.de/helpers/translations.js:49
 msgid "Right"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:43
+#: stocks@infinicode.de/helpers/translations.js:51
 msgid "Ticker Display Variation"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:44
+#: stocks@infinicode.de/helpers/translations.js:52
 msgid "Compact"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:45
+#: stocks@infinicode.de/helpers/translations.js:53
 msgid "Regular"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:46
+#: stocks@infinicode.de/helpers/translations.js:54
 msgid "Tremendous"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:47
+#: stocks@infinicode.de/helpers/translations.js:55
 msgid "Minimal"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:49
+#: stocks@infinicode.de/helpers/translations.js:57
 msgid "Items to show in ticker"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:50
+#: stocks@infinicode.de/helpers/translations.js:58
 msgid "Stock Panel Ticker Interval in Seconds"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:51
-msgid "Show off-market prices in Ticker"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:52
-msgid "Use instrument names from provider"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:56
-msgid "Change"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:57
-#: stocks@infinicode.de/helpers/translations.js:69
-msgid "Pre Market*"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:58
-#: stocks@infinicode.de/helpers/translations.js:70
-msgid "Post Market*"
-msgstr ""
-
 #: stocks@infinicode.de/helpers/translations.js:59
-msgid "Volume"
+msgid "Data Refresh Interval in Minutes"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:60
-msgid "Exchange"
+msgid "Show off-market prices in Ticker"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:61
-msgid "Prev. Close"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:62
-msgid "Open"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:63
-msgid "Close"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:64
-msgid "High"
+msgid "Use instrument names from provider"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:65
-msgid "Low"
+msgid "Change"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:66
-msgid "Time"
+#: stocks@infinicode.de/helpers/translations.js:78
+msgid "Pre Market*"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:67
-msgid "Before Hours*"
+#: stocks@infinicode.de/helpers/translations.js:79
+msgid "Post Market*"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:68
-msgid "After Hours*"
+msgid "Volume"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:69
+msgid "Exchange"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:70
+msgid "Prev. Close"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:71
+msgid "Open"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:72
+msgid "Close"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:73
+msgid "High"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:74
-msgid "1D"
+msgid "Low"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:75
-msgid "5D"
+msgid "Time"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:76
-msgid "1M"
+msgid "Before Hours*"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:77
-msgid "6M"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:78
-msgid "YTD"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:79
-msgid "1Y"
+msgid "After Hours*"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:80
-msgid "5Y"
+msgid "Realized"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:81
-msgid "Max"
+msgid "Value"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:82
+msgid "Cost"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:83
+msgid "Price"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:85
-msgid "OS"
+msgid "Buy"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:86
-msgid "Extension Version"
+msgid "Sell"
 msgstr ""
 
-#: stocks@infinicode.de/helpers/translations.js:87
-msgid "Git Commit"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:88
-msgid "GNOME Version"
-msgstr ""
-
-#: stocks@infinicode.de/helpers/translations.js:89
-msgid "Session Type"
+#: stocks@infinicode.de/helpers/translations.js:91
+msgid "1D"
 msgstr ""
 
 #: stocks@infinicode.de/helpers/translations.js:92
+msgid "5D"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:93
+msgid "1M"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:94
+msgid "6M"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:95
+msgid "YTD"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:96
+msgid "1Y"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:97
+msgid "5Y"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:98
+msgid "Max"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:102
+msgid "Save"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:103
+msgid "Date"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:104
+msgid "Alltime"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:105
+msgid "Total"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:106
+msgid "Today"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:107
+msgid "Amount"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:108
+msgid "OS"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:109
+msgid "Extension Version"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:110
+msgid "Git Commit"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:111
+msgid "GNOME Version"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:112
+msgid "Session Type"
+msgstr ""
+
+#: stocks@infinicode.de/helpers/translations.js:115
 msgid "%H:%M:%S %d.%m.%Y"
 msgstr ""

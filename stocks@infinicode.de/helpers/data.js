@@ -111,12 +111,4 @@ export const getComplementaryColor = (hex, bw = true) => {
   return '#' + padZero(r) + padZero(g) + padZero(b)
 }
 
-export const moveDecimal = (value, decimalPlaces) => {
-  if (!value) {
-    return value
-  }
-
-  return value / Math.pow(10, decimalPlaces)
-}
-
 export const roundOrDefault = (number, defaultValue = '--') => isNullOrUndefined(number) ? defaultValue : (Math.round((number + Number.EPSILON) * 100) / 100).toFixed(2)

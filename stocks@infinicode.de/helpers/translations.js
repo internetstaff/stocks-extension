@@ -12,9 +12,9 @@ export const initTranslations = (_) => {
     NO_SYMBOLS_CONFIGURED_ERROR: _('No Symbols / Tickers configured.'),
     EMPTY_TICKER_TEXT: _('stocks'),
     UNKNOWN: _('UNKNOWN'),
+    INVALID_PROVIDER: _('Invalid Provider'),
     PROVIDERS: {
-      YAHOO: _('Yahoo'),
-      EAST_MONEY: _('EastMoney')
+      YAHOO: _('Yahoo')
     },
     TRANSACTIONS: {
       INVALID_PRICE: _('Price could not be parsed'),

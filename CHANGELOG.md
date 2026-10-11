@@ -1,5 +1,22 @@
 # Changelog
 
+## [39] - 2026-10-11
+
+### Added
+- GNOME 51 compatibility
+
+### Removed
+- EastMoney data provider; Yahoo Finance is now the only provider. Existing EastMoney symbols will show an "Invalid Provider" error and can be edited or removed in settings
+
+## [38] - 2026-05-10
+
+### Added
+- GNOME 50 compatibility
+
+### Fixed
+- Ticker always shows the configured number of stocks, wrapping around to the start of the list when needed
+- Spacing between multiple stocks in the ticker; removed the stray space before `%`
+
 ## [37] - 2026-02-21
 
 ### Added

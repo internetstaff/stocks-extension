@@ -26,8 +26,7 @@ export const CHART_RANGES_MAX_GAP = {
 }
 
 export const FINANCE_PROVIDER = {
-  YAHOO: 'yahoo',
-  EAST_MONEY: 'eastmoney'
+  YAHOO: 'yahoo'
 }
 
 export const MARKET_STATES = {

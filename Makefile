@@ -55,11 +55,12 @@ $(LOCALE_DIR)/%/LC_MESSAGES:
 $(PO_DIR):
 	mkdir -p $@
 
-$(POT_FILE): $(PO_DIR)
+$(POT_FILE): $(TOLOCALIZE) | $(PO_DIR)
 	xgettext --from-code=UTF-8 --package-name "gnome-shell-extension-$(EXTENSION_NAME)" --msgid-bugs-address=$(AUTHOR_MAIL) -k_ -kN_ -o $(POT_FILE) $(TOLOCALIZE)
 
-$(PO_FILES): $(POT_FILE) $(PO_DIR)
-	msgmerge -m -U --backup=none $@ $<
+$(PO_FILES): $(POT_FILE)
+	msgmerge -U --backup=none $@ $<
+	touch $@
 
 $(MO_FILES): $(PO_FILES) $(MO_DIR)
 

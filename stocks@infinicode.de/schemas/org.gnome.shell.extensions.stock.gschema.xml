@@ -11,10 +11,6 @@
         <value value="2" nick="tremendous"/> <!-- :D -->
         <value value="3" nick="minimal"/>
     </enum>
-    <enum id="org.gnome.shell.extensions.stocks.provider">
-        <value value="0" nick="yahoo"/>
-        <value value="1" nick="eastmoney"/>
-    </enum>
     <schema path="/org/gnome/shell/extensions/stocks/" id="org.gnome.shell.extensions.stocks">
         <key name="position-in-panel" enum="org.gnome.shell.extensions.stocks.position">
             <default>'center'</default>

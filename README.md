@@ -32,22 +32,26 @@ Clone the repo and run `make install`
 
 Data is cached for no less than 5 minutes and will reload automatically. Click refresh to force a fresh pull immediately.
 
-Currently, two providers are supported:
-
- - [Yahoo Finance](https://finance.yahoo.com/)
- - [eastmoney](https://www.eastmoney.com/)
-
-Eastmoney is likely to be removed if I don't hear from users.
+Data is provided by [Yahoo Finance](https://finance.yahoo.com/).
 
 ## Add Stocks
 
-To add stocks you need the provider related symbol / identifier. You should be able to get them from yahoo finance or eastmoney.com pages.
+To add stocks you need the provider related symbol / identifier. You should be able to get them from yahoo finance pages.
 
 1. Open Settings
 2. Add or Select a Portfolio
-2. Click on the + icon on the bottom of the first tab
-3. Enter Symbol (**yahoo** e.g. *AHLA.DE*, **eastmoney** e.g. *1.000001*) and give it a name
+3. Click on the + icon on the bottom of the first tab
+4. Enter Symbol (e.g. *AHLA.DE*) and give it a name
 
 
 ### debug
+
+Since GNOME 49, nested sessions use `--devkit`, which needs the Mutter devkit viewer installed
+(e.g. `sudo dnf install mutter-devkit` on Fedora). Without it the shell starts headless and no window appears.
+
+```sh
+make install
 dbus-run-session -- gnome-shell --devkit --wayland
+```
+
+The extension must be enabled (`gnome-extensions enable stocks@infinicode.de`). Re-run `make install` and restart the nested session after each change.
