@@ -74,7 +74,7 @@ export const getQuoteList = async ({ symbolsWithFallbackName, settings, cancella
 
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get quote list: yahooMeta is invalid")
-    return []
+    return createQuoteSummaryFromYahooQuoteListData({ symbolsWithFallbackName, quoteListData: null, error: 'Yahoo auth failed' })
   }
 
   const queryParameters = {
@@ -109,7 +109,7 @@ export const getQuoteSummary = async ({ symbol, settings, cancellable = null }) 
   const yahooMeta = await ensurePrerequisites(settings, cancellable)
   if (!yahooMeta.isValid) {
     console.warn("[YahooService] Skipping get quote summary: yahooMeta is invalid")
-    return {}
+    return createQuoteSummaryFromYahooData({ symbol, quoteData: null, error: 'Yahoo auth failed' })
   }
 
   const queryParameters = {

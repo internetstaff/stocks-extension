@@ -22,6 +22,7 @@
  */
 
 import Clutter from 'gi://Clutter'
+import Gio from 'gi://Gio'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
 
@@ -63,7 +64,20 @@ const StocksMenuButton = GObject.registerClass(class StocksMenuButton extends Pa
     super._init(menuAlignment, _('Stocks'))
     this.add_style_class_name('stocks-extension')
 
-    this.add_child(new MenuStockTicker(this._settings))
+    const panelBox = new St.BoxLayout({ vertical: false })
+    this.add_child(panelBox)
+
+    const iconFile = Gio.File.new_for_path(`${this._extensionObject.path}/media/stock-chart-icon.svg`)
+    this._panelIcon = new St.Icon({
+      gicon: new Gio.FileIcon({ file: iconFile }),
+      style_class: 'system-status-icon stocks-panel-icon'
+    })
+    panelBox.add_child(this._panelIcon)
+
+    this._menuTicker = new MenuStockTicker(this._settings)
+    panelBox.add_child(this._menuTicker)
+
+    this._updatePanelDisplay()
 
     const bin = new St.Widget({ style_class: 'stocks-extension' })
     bin._delegate = this
@@ -92,6 +106,23 @@ const StocksMenuButton = GObject.registerClass(class StocksMenuButton extends Pa
 
   _sync (changedValue, changedKey) {
     this.checkPositionInPanel()
+    this._updatePanelDisplay()
+  }
+
+  _hasTickerSymbols () {
+    return this._settings.portfolios.some(p => p.symbols.some(s => s.showInTicker))
+  }
+
+  _updatePanelDisplay () {
+    const hasTickerSymbols = this._hasTickerSymbols()
+    this._panelIcon.visible = !hasTickerSymbols
+    this._menuTicker.visible = hasTickerSymbols
+
+    if (hasTickerSymbols) {
+      this.remove_style_class_name('stocks-icon-mode')
+    } else {
+      this.add_style_class_name('stocks-icon-mode')
+    }
   }
 
   checkPositionInPanel () {

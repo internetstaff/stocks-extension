@@ -208,3 +208,14 @@
 .stocks-extension .stock-card .detail-item-value {
     font-size: .8em;
 }
+
+/*** panel icon mode ***/
+
+.stocks-extension.stocks-icon-mode.panel-button {
+    -natural-hpadding: 6px;
+    -minimum-hpadding: 4px;
+}
+
+.stocks-panel-icon {
+    icon-size: 20px;
+}
