@@ -55,3 +55,20 @@ dbus-run-session -- gnome-shell --devkit --wayland
 ```
 
 The extension must be enabled (`gnome-extensions enable stocks@infinicode.de`). Re-run `make install` and restart the nested session after each change.
+
+### Releasing
+
+Releases are built and published by GitHub Actions (`.github/workflows/main.yml`) whenever a `v*` tag is pushed.
+
+1. Bump `"version"` in `stocks@infinicode.de/metadata.json` and add a matching entry to `CHANGELOG.md`.
+2. Commit and push to `main`.
+3. Tag the commit with the new version and push the tag:
+
+   ```sh
+   git tag v39
+   git push origin v39
+   ```
+
+The workflow runs `make package` and creates a GitHub Release with auto-generated notes and `stocks-extension.zip` attached.
+
+Publishing to [extensions.gnome.org](https://extensions.gnome.org/extension/1422/stocks-extension/) is a separate manual step: upload the `stocks-extension.zip` from the release (or a local `make package` build in `_build/`).

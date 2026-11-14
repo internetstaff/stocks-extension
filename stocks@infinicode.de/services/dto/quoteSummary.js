@@ -40,7 +40,7 @@ export const createQuoteSummaryFromYahooQuoteListData = ({ symbolsWithFallbackNa
 
   symbolsWithFallbackName.forEach(symbolWithFallbackName => {
     const { symbol, fallbackName, forceFallbackName } = symbolWithFallbackName
-    const quoteData = quoteListData?.quoteResponse?.result?.find(quoteResult => quoteResult.symbol === symbol)
+    const quoteData = quoteListData?.quoteResponse?.result?.find(quoteResult => quoteResult.symbol?.toUpperCase() === symbol?.toUpperCase())
 
     const sanitizedQuoteData = {}
 
