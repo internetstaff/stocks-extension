@@ -208,3 +208,72 @@
 .stocks-extension .stock-card .detail-item-value {
     font-size: .8em;
 }
+
+/*** stock row table ***/
+
+.stocks-extension .stock-row {
+    padding: 0 12px;
+    min-height: 42px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.18);
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.stocks-extension .stock-row:hover,
+.stocks-extension .stock-row:focus {
+    background-color: rgba(128, 128, 128, 0.14);
+}
+
+.stocks-extension .stock-row-name {
+    font-size: 1.05em;
+}
+
+.stocks-extension .stock-row-symbol,
+.stocks-extension .stock-row-tag,
+.stocks-extension .stock-row-change {
+    color: rgba(128, 128, 128, 1);
+    font-size: .85em;
+}
+
+.stocks-extension .stock-row-symbol {
+    margin-left: 8px;
+}
+
+.stocks-extension .stock-row-error {
+    max-width: 200px;
+    margin-left: 8px;
+    color: rgba(244, 78, 63, 1);
+    font-size: .85em;
+}
+
+.stocks-extension .stock-row-tag {
+    margin-left: 6px;
+    padding: 0 5px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.25);
+    font-size: .75em;
+}
+
+.stocks-extension .stock-row-price {
+    min-width: 92px;
+    text-align: right;
+}
+
+.stocks-extension .stock-row-change {
+    min-width: 78px;
+    margin-left: 10px;
+    text-align: right;
+}
+
+.stocks-extension .stock-row-pill {
+    min-width: 70px;
+    margin-left: 10px;
+    padding: 3px 0;
+    border-radius: 7px;
+}
+
+.stocks-extension .stock-row-pill-label {
+    font-size: .9em;
+    text-align: center;
+}

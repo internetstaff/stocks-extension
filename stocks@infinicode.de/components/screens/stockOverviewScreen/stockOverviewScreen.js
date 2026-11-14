@@ -10,7 +10,7 @@ import { Translations } from '../../../helpers/translations.js'
 import * as FinanceService from '../../../services/financeService.js'
 import { FINANCE_PROVIDER } from '../../../services/meta/generic.js'
 import { ButtonGroup } from '../../buttons/buttonGroup.js'
-import { StockCard } from '../../cards/stockCard.js'
+import { StockRowCard } from '../../cards/stockRowCard.js'
 import { FlatList } from '../../flatList/flatList.js'
 import { SearchBar } from '../../searchBar/searchBar.js'
 
@@ -156,11 +156,11 @@ export const StockOverviewScreen = GObject.registerClass({
         settings: this._settings
       }),
 
-      symbols.filter(item => item.provider !== FINANCE_PROVIDER.YAHOO).map(symbolData => FinanceService.getQuoteSummary({
+      Promise.all(symbols.filter(item => item.provider !== FINANCE_PROVIDER.YAHOO).map(symbolData => FinanceService.getQuoteSummary({
         ...symbolData,
         fallbackName: symbolData.name,
         settings: this._settings
-      }))
+      })))
     ])
 
     this._showLoadingInfoTimeoutId = clearTimeout(this._showLoadingInfoTimeoutId)
@@ -178,7 +178,7 @@ export const StockOverviewScreen = GObject.registerClass({
         return
       }
 
-      this._list.addItem(new StockCard(quoteSummary, this._settings.selected_portfolio, this._settings))
+      this._list.addItem(new StockRowCard(quoteSummary))
     })
 
     this._filter_results(this._searchBar.search_text())
