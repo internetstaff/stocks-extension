@@ -28,7 +28,6 @@ export const initTranslations = (_) => {
       ADD_SYMBOL: _('Add Symbol'),
       ADD_PORTFOLIO: _('Add Portfolio'),
       PORTFOLIO_NAME: _('Portfolio Name'),
-      DEFAULT_NAME: _('Changeme %d'),
       DEFAULT_PORTFOLIO_NAME: _('List %d'),
       QUOTE_NAME: _('Name'),
       SYMBOL: _('Symbol'),

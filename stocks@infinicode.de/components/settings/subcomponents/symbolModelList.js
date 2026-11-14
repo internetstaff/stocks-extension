@@ -5,7 +5,6 @@ import Gio from 'gi://Gio'
 import { StockItem } from './stockItem.js'
 
 import { SettingsHandler, STOCKS_SYMBOL_PAIRS, } from '../../../helpers/settings.js'
-import { Translations } from '../../../helpers/translations.js'
 
 import { FINANCE_PROVIDER } from '../../../services/meta/generic.js'
 
@@ -57,13 +56,11 @@ export const SymbolModelList = GObject.registerClass({
   }
 
   append () {
-    const name = Translations.SETTINGS.DEFAULT_NAME.format(this.#items.length + 1)
-
     const newStockItem = new StockItem()
 
     newStockItem.id = Gio.dbus_generate_guid()
-    newStockItem.name = name
-    newStockItem.symbol = 'AHLA.DE'
+    newStockItem.name = 'DJI'
+    newStockItem.symbol = '^DJI'
     newStockItem.provider = FINANCE_PROVIDER.YAHOO
     newStockItem.showInTicker = false
 

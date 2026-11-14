@@ -83,7 +83,7 @@ export const SymbolRow = GObject.registerClass({
       max_width_chars: 25,
       ellipsize: Pango.EllipsizeMode.END,
     })
-    label.label = `${this.item.name} (${this.item.symbol}@${this.item.provider}${this.item.showInTicker ? Translations.SETTINGS.SHOW_IN_TICKER_INFO : ''})`
+    label.label = `${this.item.name} (${this.item.symbol}${this.item.showInTicker ? Translations.SETTINGS.SHOW_IN_TICKER_INFO : ''})`
     viewRowBox.append(label)
 
     const removeButton = new Gtk.Button({
