@@ -48,7 +48,7 @@ export const SearchBar = GObject.registerClass({
       const backIconButton = new IconButton({
         style_class: 'navigate-back-icon-button',
         icon_name: 'go-previous-symbolic',
-        text: Translations.BACK,
+        accessible_name: Translations.BACK,
         onClick: () => this._mainEventHandler.emit('show-screen', { screen: this.back_screen_name, additionalData: this.additionalDataForBackScreen })
       })
 
