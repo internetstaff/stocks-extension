@@ -4,6 +4,7 @@ import GObject from 'gi://GObject'
 import Pango from 'gi://Pango'
 import St from 'gi://St'
 
+import { currencyPrefix } from '../../helpers/quoteRow.js'
 import { getStockColorStyleClass, isNullOrEmpty, roundOrDefault } from '../../helpers/data.js'
 import { STOCKS_PORTFOLIOS, STOCKS_SYMBOL_PAIRS, STOCKS_TICKER_INTERVAL, STOCKS_USE_PROVIDER_INSTRUMENT_NAMES } from '../../helpers/settings.js'
 
@@ -157,7 +158,7 @@ export const MenuStockTicker = GObject.registerClass({
       y_align: Clutter.ActorAlign.CENTER,
       y_expand: true,
       style_class: `ticker-stock-quote-label fwb ${quoteColorStyleClass}`,
-      text: `${roundOrDefault(price)}${currencySymbol}`
+      text: `${currencySymbol}${roundOrDefault(price)}`
     })
 
     const changeLabel = new St.Label({
@@ -208,14 +209,14 @@ export const MenuStockTicker = GObject.registerClass({
       y_align: regular ? Clutter.ActorAlign.CENTER : Clutter.ActorAlign.START,
       y_expand: true,
       style_class: `ticker-stock-quote-label fwb ${quoteColorStyleClass}`,
-      text: `${roundOrDefault(price)}${currencySymbol}`
+      text: `${currencySymbol}${roundOrDefault(price)}`
     })
 
     const stockQuoteChangeLabel = new St.Label({
       y_align: regular ? Clutter.ActorAlign.CENTER : Clutter.ActorAlign.START,
       y_expand: true,
       style_class: `ticker-stock-quote-change-label fwb ${quoteColorStyleClass}`,
-      text: `(${roundOrDefault(change)}${currencySymbol} | ${roundOrDefault(changePercent)}%)${isOffMarket ? '*' : ''}`
+      text: `(${currencySymbol}${roundOrDefault(change)} | ${roundOrDefault(changePercent)}%)${isOffMarket ? '*' : ''}`
     })
 
     stockQuoteLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.NONE)
@@ -253,7 +254,7 @@ export const MenuStockTicker = GObject.registerClass({
       y_align: Clutter.ActorAlign.CENTER,
       y_expand: true,
       style_class: `ticker-stock-quote-label fwb ${quoteColorStyleClass}`,
-      text: `${roundOrDefault(price)}${currencySymbol}`
+      text: `${currencySymbol}${roundOrDefault(price)}`
     })
 
     stockNameLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.NONE)
@@ -352,7 +353,7 @@ export const MenuStockTicker = GObject.registerClass({
   _generateTickerInformation (quoteSummary) {
     const stockInfoDetails = {
       name: quoteSummary.FullName,
-      currencySymbol: quoteSummary.CurrencySymbol,
+      currencySymbol: currencyPrefix(quoteSummary.CurrencySymbol),
       price: quoteSummary.Close,
       change: quoteSummary.Change,
       changePercent: quoteSummary.ChangePercent,

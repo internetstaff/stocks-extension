@@ -15,6 +15,14 @@ const toNumber = value => {
   return Number.isFinite(number) ? number : null
 }
 
+const formatNumber = (number, decimals = 2) => number.toLocaleString(undefined, {
+  minimumFractionDigits: decimals,
+  maximumFractionDigits: decimals
+})
+
+// Symbols like $ attach directly; alphabetic ones (CHF, GBp) need a space
+export const currencyPrefix = symbol => !symbol ? '' : /[A-Za-z]$/.test(symbol) ? `${symbol} ` : symbol
+
 const signOf = number => number > 0 ? '+' : number < 0 ? '−' : ''
 
 export const pillTint = changePercent => {
@@ -49,20 +57,21 @@ export const buildRowModel = quote => {
   const close = toNumber(quote.Close)
   const change = toNumber(quote.Change)
   const percent = toNumber(quote.ChangePercent)
+  const currency = currencyPrefix(quote.CurrencySymbol)
 
-  model.price = close === null ? '--' : close.toFixed(2)
+  model.price = close === null ? '--' : `${currency}${formatNumber(close)}`
 
   if (change === null) {
     model.change = '--'
   } else {
     const decimals = change !== 0 && Math.abs(change) < 0.1 ? 4 : 2
-    model.change = `${signOf(change)}${Math.abs(change).toFixed(decimals)}`
+    model.change = `${signOf(change)}${currency}${formatNumber(Math.abs(change), decimals)}`
   }
 
   if (percent === null) {
     model.percent = '--'
   } else {
-    model.percent = `${signOf(percent)}${Math.abs(percent).toFixed(2)}%`
+    model.percent = `${signOf(percent)}${formatNumber(Math.abs(percent))}%`
   }
 
   const reference = percent !== null ? percent : change

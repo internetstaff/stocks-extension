@@ -1,6 +1,31 @@
 import { isNullOrUndefined } from '../../helpers/data.js'
 import { FINANCE_PROVIDER, MARKET_STATES } from '../meta/generic.js'
 
+// Yahoo often omits currencySymbol but always sends the ISO code (e.g. "USD")
+const currencySymbolFor = priceData => {
+  if (priceData.currencySymbol) {
+    return priceData.currencySymbol
+  }
+
+  if (!priceData.currency) {
+    return null
+  }
+
+  // Subunit codes (GBp pence, ZAc cents, ILA agorot) are not ISO currencies; Intl would fold GBp into GBP and show £ for pence
+  if (priceData.currency !== priceData.currency.toUpperCase() || priceData.currency === 'ILA') {
+    return priceData.currency
+  }
+
+  try {
+    const part = new Intl.NumberFormat(undefined, { style: 'currency', currency: priceData.currency, currencyDisplay: 'narrowSymbol' })
+      .formatToParts(0).find(item => item.type === 'currency')
+
+    return part ? part.value : priceData.currency
+  } catch (e) {
+    return priceData.currency
+  }
+}
+
 export const QuoteSummary = class QuoteSummary {
   constructor (symbol, provider, name, error) {
     this.Name = name
@@ -91,7 +116,7 @@ export const createQuoteSummaryFromYahooData = ({ symbol, quoteData, error }) =>
       newObject.Low = priceData.regularMarketDayLow
       newObject.High = priceData.regularMarketDayHigh
       newObject.Volume = priceData.regularMarketVolume
-      newObject.CurrencySymbol = priceData.currencySymbol
+      newObject.CurrencySymbol = currencySymbolFor(priceData)
       newObject.ExchangeName = priceData.exchangeName || priceData.fullExchangeName
 
       newObject.MarketState = priceData.marketState
@@ -154,7 +179,7 @@ export const createQuoteSummaryFromYahooDataV6 = ({ symbol, quoteData, error }) 
       newObject.Low = priceData.regularMarketDayLow.raw
       newObject.High = priceData.regularMarketDayHigh.raw
       newObject.Volume = priceData.regularMarketVolume.raw
-      newObject.CurrencySymbol = priceData.currencySymbol
+      newObject.CurrencySymbol = currencySymbolFor(priceData)
       newObject.ExchangeName = priceData.exchangeName
 
       newObject.MarketState = priceData.marketState

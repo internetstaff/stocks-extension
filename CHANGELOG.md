@@ -5,8 +5,10 @@
 ### Changed
 - Redesigned the stock overview as a compact table (name, price, change, percent); volume, timestamp and transaction totals are now only shown on the detail screen
 - Minor UI tweaks
+- Prices in the overview and ticker now show the currency symbol before the amount, and overview rows use thousands separators
 
 ### Fixed
+- Currency symbol is derived from the currency code when Yahoo doesn't provide one; pence (`GBp`) and similar subunit currencies are no longer shown as pounds
 - Quotes are now matched case-insensitively, so lowercase symbols work in the ticker
 
 ## [39] - 2026-10-11
